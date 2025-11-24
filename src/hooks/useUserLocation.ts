@@ -20,6 +20,7 @@ function useUserLocation() {
     Geolocation.getCurrentPosition(
       position => {
         setUserLocation(position.coords);
+        setIsUserLocationError(false);
       },
       () => {
         setIsUserLocationError(true);

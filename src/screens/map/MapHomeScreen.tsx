@@ -8,6 +8,7 @@ import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import useUserLocation from '@/hooks/useUserLocation';
 import {numbers} from '@/constants/numbers';
 import usePermission from '@/hooks/usePermission';
+import Toast from 'react-native-toast-message';
 
 interface MapHomeScreenProps {}
 
@@ -32,6 +33,11 @@ function MapHomeScreen({}: MapHomeScreenProps) {
 
   const hanldePressUserLocation = () => {
     if (isUserLocationError) {
+      Toast.show({
+        type: 'error',
+        text1: '위치 정보를 가져올 수 없습니다.',
+        text2: '위치 권한이 허용되었는지 설정을 확인해주세요.',
+      });
       return;
     }
     if (userLocation) {
