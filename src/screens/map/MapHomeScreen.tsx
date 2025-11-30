@@ -1,10 +1,9 @@
 import DrawerButton from '@/components/DrawerButton';
 import {colors} from '@/constants/colors';
 import React, {useState} from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import MapView, {LatLng, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import useUserLocation from '@/hooks/useUserLocation';
 import {numbers} from '@/constants/numbers';
 import usePermission from '@/hooks/usePermission';
@@ -12,8 +11,15 @@ import Toast from 'react-native-toast-message';
 import CustomMarker from '@/components/CustomMarker';
 import useMoveMapView from '@/hooks/useMoveMapView';
 import {MarkerColor} from '@/types';
+import MapIconButton from '@/components/MapIconButton';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {MapStackParamList} from '@/types/navigation';
+
+type Navigation = StackNavigationProp<MapStackParamList>;
 
 function MapHomeScreen() {
+  const navigation = useNavigation<Navigation>();
   const inset = useSafeAreaInsets();
 
   const {userLocation, isUserLocationError} = useUserLocation();
@@ -38,6 +44,19 @@ function MapHomeScreen() {
 
   const handlePressMarker = (coordinate: LatLng) => {
     moveMapView(coordinate);
+  };
+
+  const handlePressAddPost = () => {
+    if (!selectedLocation) {
+      Alert.alert(
+        '추가할 위치를 선택해주세요.',
+        '지도를 길게 누르면 위치가 선택됩니다.',
+      );
+      return;
+    }
+    navigation.navigate('AddLocation', {
+      location: selectedLocation,
+    });
   };
 
   return (
@@ -84,14 +103,11 @@ function MapHomeScreen() {
         {selectedLocation && <Marker coordinate={selectedLocation} />}
       </MapView>
       <View style={styles.buttonList}>
-        <Pressable style={styles.mapButton} onPress={hanldePressUserLocation}>
-          <FontAwesome6
-            iconStyle="solid"
-            size={24}
-            name="location-crosshairs"
-            color={colors.WHITE}
-          />
-        </Pressable>
+        <MapIconButton name="plus" onPress={handlePressAddPost} />
+        <MapIconButton
+          name="location-crosshairs"
+          onPress={hanldePressUserLocation}
+        />
       </View>
     </>
   );

@@ -1,8 +1,9 @@
-import { NavigatorScreenParams } from '@react-navigation/native';
+import {NavigatorScreenParams} from '@react-navigation/native';
+import {LatLng} from 'react-native-maps';
 
 export type MapStackParamList = {
   MapHome: undefined;
-  AddLocation: undefined;
+  AddLocation: {location: LatLng};
   SearchLocation: undefined;
 };
 
@@ -14,9 +15,9 @@ export type AuthStackParamList = {
 
 export type FeedStackParamList = {
   FeedList: undefined;
-  FeedDetail: { id: number };
+  FeedDetail: {id: number};
   FeedFavorite: undefined;
-  EditLocation: { id: number };
+  EditLocation: {id: number};
 };
 
 export type MainDrawerParamList = {

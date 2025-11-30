@@ -1,23 +1,52 @@
+import CustomButton from '@/components/CustomButton';
+import InputField from '@/components/InputField';
+import useForm from '@/hooks/useForm';
+import {MapStackParamList} from '@/types/navigation';
+import {validateAddPost} from '@/utils/validation';
+import {StackScreenProps} from '@react-navigation/stack';
 import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Text } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import {ScrollView, StyleSheet} from 'react-native';
 
-interface AddLocationScreenProps {}
+type AddLocationScreenProps = StackScreenProps<
+  MapStackParamList,
+  'AddLocation'
+>;
 
-function AddLocationScreen({}: AddLocationScreenProps) {
+function AddLocationScreen({route}: AddLocationScreenProps) {
+  const {location} = route.params;
+  const postForm = useForm({
+    initialValue: {
+      title: '',
+      content: '',
+      date: new Date(),
+      location: location,
+    },
+    validate: validateAddPost,
+  });
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Add Location Screen</Text>
-    </SafeAreaView>
+    <ScrollView style={styles.container}>
+      <InputField />
+      <CustomButton variant="outlined" label="날짜선택" onPress={() => {}} />
+      <InputField
+        placeholder="제목을 입력하세요"
+        error={postForm.errors.title}
+        touched={postForm.touched.title}
+        {...postForm.getTextInputProps('title')}
+      />
+      <InputField
+        placeholder="상세히 기억할 내용을 입력하세요 (선택)"
+        multiline
+        {...postForm.getTextInputProps('content')}
+      />
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    gap: 20,
+    padding: 20,
+    backgroundColor: 'white',
   },
 });
 
