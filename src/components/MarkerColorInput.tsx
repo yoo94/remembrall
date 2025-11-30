@@ -12,7 +12,7 @@ interface MarkerColorInputProps {
 const MarkerColorInput = ({color, onChangeColor}: MarkerColorInputProps) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.markerLabel}>중요도 선택</Text>
+      <Text style={styles.markerLabel}>마크색상 선택</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.markerInputScroll}>
           {[

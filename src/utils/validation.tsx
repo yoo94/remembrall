@@ -40,6 +40,7 @@ function validateAddPost(values: {title: string}) {
     description: '',
     date: '',
     colors: '',
+    score: '',
   };
   if (values.title.trim() === '') {
     errors.title = '제목을 입력해주세요.';
