@@ -81,13 +81,13 @@ function MapHomeScreen() {
         {[
           {
             id: 1,
-            color: 'PINK' as MarkerColor,
+            color: colors.PINK_400 as MarkerColor,
             score: 3,
             coordinate: {latitude: 37.5665, longitude: 126.978},
           },
           {
             id: 2,
-            color: 'BLUE' as MarkerColor,
+            color: colors.BLUE_400 as MarkerColor,
             score: 3,
             coordinate: {latitude: 37.5661, longitude: 126.971},
           },

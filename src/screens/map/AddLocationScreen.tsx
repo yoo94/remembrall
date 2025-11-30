@@ -10,6 +10,8 @@ import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import DatePicker from 'react-native-date-picker';
 import {getDateTimeWithSeparator} from '@/utils/date';
+import MarkerColorInput from '@/components/MarkerColorInput';
+import {colors} from '@/constants/colors';
 
 type AddLocationScreenProps = StackScreenProps<
   MapStackParamList,
@@ -25,6 +27,7 @@ function AddLocationScreen({route}: AddLocationScreenProps) {
       title: '',
       description: '',
       date: new Date(),
+      color: colors.PINK_400,
     },
     validate: validateAddPost,
   });
@@ -59,6 +62,10 @@ function AddLocationScreen({route}: AddLocationScreenProps) {
           error={postForm.errors.description}
           touched={postForm.touched.description}
           {...postForm.getTextInputProps('description')}
+        />
+        <MarkerColorInput
+          color={postForm.values.color}
+          onChangeColor={value => postForm.onChange('color', value)}
         />
         <DatePicker
           modal

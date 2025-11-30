@@ -1,23 +1,14 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
-import {LatLng, Marker, MapMarkerProps} from 'react-native-maps';
-
+import {LatLng, Marker, MyMapMarkerProps} from 'react-native-maps';
 import {colors} from '@/constants';
 import {MarkerColor} from '@/types';
 
-interface CustomMarkerProps extends MapMarkerProps {
-  coordinate: LatLng;
+interface CustomMarkerProps extends MyMapMarkerProps {
+  coordinate?: LatLng;
   color: MarkerColor;
   score?: number;
 }
-
-const colorHex = {
-  PINK: colors.PINK_400,
-  BLUE: colors.BLUE_400,
-  GREEN: colors.GREEN_400,
-  YELLOW: colors.YELLOW_400,
-  PURPLE: colors.PURPLE_400,
-};
 
 function CustomMarker({
   coordinate,
@@ -27,7 +18,7 @@ function CustomMarker({
 }: CustomMarkerProps) {
   const markerView = (
     <View style={styles.container}>
-      <View style={[styles.marker, {backgroundColor: colorHex[color]}]}>
+      <View style={[styles.marker, {backgroundColor: color}]}>
         <View style={[styles.eye, styles.leftEye]} />
         <View style={[styles.eye, styles.rightEye]} />
         {score > 3 && <View style={[styles.mouth, styles.good]} />}
