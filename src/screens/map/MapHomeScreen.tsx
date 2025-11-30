@@ -1,35 +1,26 @@
 import DrawerButton from '@/components/DrawerButton';
 import {colors} from '@/constants/colors';
-import React, {useRef} from 'react';
+import React, {useState} from 'react';
 import {Pressable, StyleSheet, View} from 'react-native';
-import MapView, {LatLng, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {LatLng, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import useUserLocation from '@/hooks/useUserLocation';
 import {numbers} from '@/constants/numbers';
 import usePermission from '@/hooks/usePermission';
 import Toast from 'react-native-toast-message';
+import CustomMarker from '@/components/CustomMarker';
+import useMoveMapView from '@/hooks/useMoveMapView';
+import {MarkerColor} from '@/types';
 
-interface MapHomeScreenProps {}
-
-function MapHomeScreen({}: MapHomeScreenProps) {
-  const {userLocation, isUserLocationError} = useUserLocation();
+function MapHomeScreen() {
   const inset = useSafeAreaInsets();
-  //지도 ref
-  const mapRef = useRef<MapView | null>(null);
+
+  const {userLocation, isUserLocationError} = useUserLocation();
+  const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
+  const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
 
   usePermission('LOCATION');
-
-  //지도 이동 함수
-  const moveMapView = (position: LatLng) => {
-    if (mapRef.current) {
-      mapRef.current.animateToRegion({
-        ...position,
-        latitudeDelta: numbers.INITIAL_DELTA.latitudeDelta,
-        longitudeDelta: numbers.INITIAL_DELTA.longitudeDelta,
-      });
-    }
-  };
 
   const hanldePressUserLocation = () => {
     if (isUserLocationError) {
@@ -45,6 +36,10 @@ function MapHomeScreen({}: MapHomeScreenProps) {
     }
   };
 
+  const handlePressMarker = (coordinate: LatLng) => {
+    moveMapView(coordinate);
+  };
+
   return (
     <>
       <DrawerButton
@@ -52,15 +47,42 @@ function MapHomeScreen({}: MapHomeScreenProps) {
         color={colors.WHITE}
       />
       <MapView
-        ref={mapRef}
-        provider={PROVIDER_GOOGLE}
+        ref={mapRef} // MapView를 제어하기 위한 참조. animateToRegion 같은 메서드를 호출할 때 사용
         style={styles.container}
         region={{
-          ...userLocation,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          // 지도에 표시될 영역(카메라 위치)을 설정
+          ...userLocation, // 사용자의 현재 위치 (latitude, longitude)
+          ...numbers.INITIAL_DELTA, // 지도의 확대/축소 정도 (latitudeDelta, longitudeDelta)
         }}
-      />
+        provider={PROVIDER_GOOGLE}
+        onLongPress={({nativeEvent}) => {
+          setSelectedLocation(nativeEvent.coordinate); // 길게 누른 위치의 좌표를 저장하여 마커 표시
+        }}
+        onRegionChangeComplete={handleChangeDelta}>
+        {[
+          {
+            id: 1,
+            color: 'PINK' as MarkerColor,
+            score: 3,
+            coordinate: {latitude: 37.5665, longitude: 126.978},
+          },
+          {
+            id: 2,
+            color: 'BLUE' as MarkerColor,
+            score: 3,
+            coordinate: {latitude: 37.5661, longitude: 126.971},
+          },
+        ].map(marker => (
+          <CustomMarker
+            key={marker.id}
+            color={marker.color}
+            score={marker.score}
+            coordinate={marker.coordinate}
+            onPress={() => handlePressMarker(marker.coordinate)}
+          />
+        ))}
+        {selectedLocation && <Marker coordinate={selectedLocation} />}
+      </MapView>
       <View style={styles.buttonList}>
         <Pressable style={styles.mapButton} onPress={hanldePressUserLocation}>
           <FontAwesome6
