@@ -15,6 +15,10 @@ import {colors} from '@/constants/colors';
 import ScoreInput from '@/components/ScoreInput';
 import FixBottomCTA from '@/components/FixBottomCTA';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import ImageInput from '@/components/ImageInput';
+import useImagePicker from '@/hooks/useImagePicker';
+import PreviewImageList from '@/components/PreviewImageList';
+import usePermission from '@/hooks/usePermission';
 
 type AddLocationScreenProps = StackScreenProps<
   MapStackParamList,
@@ -22,10 +26,14 @@ type AddLocationScreenProps = StackScreenProps<
 >;
 
 function AddLocationScreen({route}: AddLocationScreenProps) {
+  usePermission('PHOTO');
+
   const inset = useSafeAreaInsets();
   const {location} = route.params;
   const address = useGetAddress(location); // 주소 정보를 받아옴
   const [openDate, setOpenDate] = useState(false);
+  const {handleChangeImage, deleteImageUri, imageUris} = useImagePicker();
+
   const postForm = useForm({
     initialValue: {
       title: '',
@@ -98,6 +106,10 @@ function AddLocationScreen({route}: AddLocationScreenProps) {
               setOpenDate(false);
             }}
           />
+          <View style={styles.imageContainer}>
+            <ImageInput onChange={handleChangeImage} />
+            <PreviewImageList imageUris={imageUris} onDelete={deleteImageUri} />
+          </View>
         </View>
       </ScrollView>
       <FixBottomCTA label="위치 저장하기" onPress={() => handleSubmit()} />
@@ -113,6 +125,10 @@ const styles = StyleSheet.create({
   contentContainer: {
     padding: 20,
     gap: 20, // View에서는 gap 사용 가능
+  },
+  imageContainer: {
+    flexDirection: 'row',
+    gap: 15,
   },
 });
 
