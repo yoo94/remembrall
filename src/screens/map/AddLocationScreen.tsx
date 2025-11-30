@@ -1,3 +1,4 @@
+import {useState} from 'react';
 import CustomButton from '@/components/CustomButton';
 import InputField from '@/components/InputField';
 import useForm from '@/hooks/useForm';
@@ -7,6 +8,8 @@ import {validateAddPost} from '@/utils/validation';
 import {StackScreenProps} from '@react-navigation/stack';
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
+import DatePicker from 'react-native-date-picker';
+import {getDateTimeWithSeparator} from '@/utils/date';
 
 type AddLocationScreenProps = StackScreenProps<
   MapStackParamList,
@@ -16,13 +19,12 @@ type AddLocationScreenProps = StackScreenProps<
 function AddLocationScreen({route}: AddLocationScreenProps) {
   const {location} = route.params;
   const address = useGetAddress(location); // 주소 정보를 받아옴
-
+  const [openDate, setOpenDate] = useState(false);
   const postForm = useForm({
     initialValue: {
       title: '',
       description: '',
       date: new Date(),
-      location: location,
     },
     validate: validateAddPost,
   });
@@ -38,7 +40,11 @@ function AddLocationScreen({route}: AddLocationScreenProps) {
           placeholder="주소"
         />
 
-        <CustomButton variant="outlined" label="날짜선택" onPress={() => {}} />
+        <CustomButton
+          variant="outlined"
+          label={getDateTimeWithSeparator(postForm.values.date, '.')}
+          onPress={() => setOpenDate(true)}
+        />
 
         <InputField
           placeholder="제목을 입력하세요"
@@ -53,6 +59,23 @@ function AddLocationScreen({route}: AddLocationScreenProps) {
           error={postForm.errors.description}
           touched={postForm.touched.description}
           {...postForm.getTextInputProps('description')}
+        />
+        <DatePicker
+          modal
+          locale="ko"
+          mode="datetime"
+          title={null}
+          date={postForm.values.date}
+          open={openDate}
+          cancelText="취소"
+          confirmText="완료"
+          onConfirm={date => {
+            postForm.onChange('date', date);
+            setOpenDate(false);
+          }}
+          onCancel={() => {
+            setOpenDate(false);
+          }}
         />
       </View>
     </ScrollView>

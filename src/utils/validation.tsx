@@ -37,6 +37,8 @@ function validateSignup(values: UserInfomation & {passwordConfirm: string}) {
 function validateAddPost(values: {title: string}) {
   const errors = {
     title: '',
+    description: '',
+    date: '',
   };
   if (values.title.trim() === '') {
     errors.title = '제목을 입력해주세요.';
