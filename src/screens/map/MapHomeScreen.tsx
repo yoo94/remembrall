@@ -10,11 +10,11 @@ import usePermission from '@/hooks/usePermission';
 import Toast from 'react-native-toast-message';
 import CustomMarker from '@/components/CustomMarker';
 import useMoveMapView from '@/hooks/useMoveMapView';
-import {MarkerColor} from '@/types';
 import MapIconButton from '@/components/MapIconButton';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {MapStackParamList} from '@/types/navigation';
+import useGetMarkers from '@/hooks/useGetMarkers';
 
 type Navigation = StackNavigationProp<MapStackParamList>;
 
@@ -25,6 +25,7 @@ function MapHomeScreen() {
   const {userLocation, isUserLocationError} = useUserLocation();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
+  const {data: markers = []} = useGetMarkers();
 
   usePermission('LOCATION');
 
@@ -57,6 +58,7 @@ function MapHomeScreen() {
     navigation.navigate('AddLocation', {
       location: selectedLocation,
     });
+    setSelectedLocation(null);
   };
 
   return (
@@ -78,26 +80,13 @@ function MapHomeScreen() {
           setSelectedLocation(nativeEvent.coordinate); // 길게 누른 위치의 좌표를 저장하여 마커 표시
         }}
         onRegionChangeComplete={handleChangeDelta}>
-        {[
-          {
-            id: 1,
-            color: colors.PINK_400 as MarkerColor,
-            score: 3,
-            coordinate: {latitude: 37.5665, longitude: 126.978},
-          },
-          {
-            id: 2,
-            color: colors.BLUE_400 as MarkerColor,
-            score: 3,
-            coordinate: {latitude: 37.5661, longitude: 126.971},
-          },
-        ].map(marker => (
+        {markers.map(({id, color, score, ...coordinate}) => (
           <CustomMarker
-            key={marker.id}
-            color={marker.color}
-            score={marker.score}
-            coordinate={marker.coordinate}
-            onPress={() => handlePressMarker(marker.coordinate)}
+            key={id}
+            color={color}
+            score={score}
+            coordinate={coordinate}
+            onPress={() => handlePressMarker(coordinate)}
           />
         ))}
         {selectedLocation && <Marker coordinate={selectedLocation} />}

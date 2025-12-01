@@ -19,6 +19,8 @@ import ImageInput from '@/components/ImageInput';
 import useImagePicker from '@/hooks/useImagePicker';
 import PreviewImageList from '@/components/PreviewImageList';
 import usePermission from '@/hooks/usePermission';
+import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
+import {useNavigation} from '@react-navigation/native';
 
 type AddLocationScreenProps = StackScreenProps<
   MapStackParamList,
@@ -33,7 +35,8 @@ function AddLocationScreen({route}: AddLocationScreenProps) {
   const address = useGetAddress(location); // 주소 정보를 받아옴
   const [openDate, setOpenDate] = useState(false);
   const {handleChangeImage, deleteImageUri, imageUris} = useImagePicker();
-
+  const createPost = useMutateCreatePost();
+  const navigation = useNavigation();
   const postForm = useForm({
     initialValue: {
       title: '',
@@ -45,7 +48,17 @@ function AddLocationScreen({route}: AddLocationScreenProps) {
     validate: validateAddPost,
   });
   const handleSubmit = async () => {
-    console.log(postForm.values);
+    createPost.mutate(
+      {
+        ...postForm.values,
+        ...location,
+        address,
+        imageUris,
+      },
+      {
+        onSuccess: () => navigation.goBack(),
+      },
+    );
   };
 
   return (
