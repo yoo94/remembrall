@@ -22,8 +22,8 @@ type Navigation = StackNavigationProp<MapStackParamList>;
 function MapHomeScreen() {
   const navigation = useNavigation<Navigation>();
   const inset = useSafeAreaInsets();
-  const [markerId, setMarkerId] = useState<number | null>(null);
-  const {isVisible, show, hide} = useModal();
+  const [markerId, setMarkerId] = useState<number>();
+  const markModal = useModal();
   const {userLocation, isUserLocationError} = useUserLocation();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
@@ -46,8 +46,8 @@ function MapHomeScreen() {
 
   const handlePressMarker = (id: number, coordinate: LatLng) => {
     setMarkerId(id);
+    markModal.show();
     moveMapView(coordinate);
-    show();
   };
 
   const handlePressAddPost = () => {
@@ -103,8 +103,8 @@ function MapHomeScreen() {
       </View>
       <MarkerModal
         markerId={Number(markerId)}
-        isVisible={isVisible}
-        hide={hide}
+        isVisible={markModal.isVisible}
+        hide={markModal.hide}
       />
     </>
   );
