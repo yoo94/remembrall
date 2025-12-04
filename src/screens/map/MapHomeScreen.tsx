@@ -15,20 +15,21 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {MapStackParamList} from '@/types/navigation';
 import useGetMarkers from '@/hooks/useGetMarkers';
-
+import MarkerModal from '@/components/MarkerModal';
+import useModal from '@/hooks/useModal';
 type Navigation = StackNavigationProp<MapStackParamList>;
 
 function MapHomeScreen() {
   const navigation = useNavigation<Navigation>();
   const inset = useSafeAreaInsets();
-
+  const [markerId, setMarkerId] = useState<number | null>(null);
+  const {isVisible, show, hide} = useModal();
   const {userLocation, isUserLocationError} = useUserLocation();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
   const {data: markers = []} = useGetMarkers();
 
   usePermission('LOCATION');
-
   const hanldePressUserLocation = () => {
     if (isUserLocationError) {
       Toast.show({
@@ -43,8 +44,10 @@ function MapHomeScreen() {
     }
   };
 
-  const handlePressMarker = (coordinate: LatLng) => {
+  const handlePressMarker = (id: number, coordinate: LatLng) => {
+    setMarkerId(id);
     moveMapView(coordinate);
+    show();
   };
 
   const handlePressAddPost = () => {
@@ -86,7 +89,7 @@ function MapHomeScreen() {
             color={color}
             score={score}
             coordinate={coordinate}
-            onPress={() => handlePressMarker(coordinate)}
+            onPress={() => handlePressMarker(id, coordinate)}
           />
         ))}
         {selectedLocation && <Marker coordinate={selectedLocation} />}
@@ -98,6 +101,11 @@ function MapHomeScreen() {
           onPress={hanldePressUserLocation}
         />
       </View>
+      <MarkerModal
+        markerId={Number(markerId)}
+        isVisible={isVisible}
+        hide={hide}
+      />
     </>
   );
 }
