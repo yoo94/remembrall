@@ -21,7 +21,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         <Pressable style={styles.profileContainer}>
           <View style={styles.userImageContainer}>
             <Image
-              source={require('../assets/default-user.png')}
+              source={require('@/assets/default-user.png')}
               style={styles.userImage}
             />
           </View>

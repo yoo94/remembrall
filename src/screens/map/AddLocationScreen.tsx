@@ -1,26 +1,28 @@
 import {useState} from 'react';
-import CustomButton from '@/components/CustomButton';
-import InputField from '@/components/InputField';
+import {ScrollView, StyleSheet, View} from 'react-native';
+import {useSafeAreaInsets} from 'react-native-safe-area-context';
+import {useNavigation} from '@react-navigation/native';
+import {StackScreenProps} from '@react-navigation/stack';
+import DatePicker from 'react-native-date-picker';
+
+import CustomButton from '@/components/common/CustomButton';
+import InputField from '@/components/common/InputField';
+import MarkerColorInput from '@/components/post/MarkerColorInput';
+import ScoreInput from '@/components/post/ScoreInput';
+import ImageInput from '@/components/post/ImageInput';
+import PreviewImageList from '@/components/PreviewImageList';
+import FixBottomCTA from '@/components/common/FixBottomCTA';
+
 import useForm from '@/hooks/useForm';
 import useGetAddress from '@/hooks/useGetAddress';
-import {MapStackParamList} from '@/types/navigation';
-import {validateAddPost} from '@/utils/validation';
-import {StackScreenProps} from '@react-navigation/stack';
-import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
-import DatePicker from 'react-native-date-picker';
-import {getDateTimeWithSeparator} from '@/utils/date';
-import MarkerColorInput from '@/components/MarkerColorInput';
-import {colors} from '@/constants/colors';
-import ScoreInput from '@/components/ScoreInput';
-import FixBottomCTA from '@/components/FixBottomCTA';
-import {useSafeAreaInsets} from 'react-native-safe-area-context';
-import ImageInput from '@/components/ImageInput';
 import useImagePicker from '@/hooks/useImagePicker';
-import PreviewImageList from '@/components/PreviewImageList';
 import usePermission from '@/hooks/usePermission';
 import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
-import {useNavigation} from '@react-navigation/native';
+
+import {MapStackParamList} from '@/types/navigation';
+import {validateAddPost} from '@/utils/validation';
+import {getDateTimeWithSeparator} from '@/utils/date';
+import {colors} from '@/constants/colors';
 
 type AddLocationScreenProps = StackScreenProps<
   MapStackParamList,

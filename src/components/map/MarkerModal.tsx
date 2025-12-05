@@ -15,9 +15,9 @@ import Ionicons from '@react-native-vector-icons/ionicons';
 
 import useGetPost from '@/hooks/queries/useGetPost';
 import {colors} from '@/constants';
-// import {getDateWithSeparator} from '@/utils';
-import CustomMarker from './CustomMarker';
+import CustomMarker from '@/components/common/CustomMarker';
 import {baseUrls} from '@/api/axios';
+import {getDateWithSeparator} from '@/utils/date';
 
 interface MarkerModalProps {
   markerId: number | null;
@@ -70,7 +70,7 @@ function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
                 </View>
                 <Text style={styles.titleText}>{post.title}</Text>
                 <Text style={styles.dateText}>
-                  {/* {getDateWithSeparator(post.date, '.')} */}
+                  {getDateWithSeparator(post.date, '.')}
                 </Text>
               </View>
             </View>

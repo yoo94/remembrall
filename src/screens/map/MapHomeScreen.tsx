@@ -1,4 +1,4 @@
-import DrawerButton from '@/components/DrawerButton';
+import DrawerButton from '@/components/common/DrawerButton';
 import {colors} from '@/constants/colors';
 import React, {useState} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
@@ -8,14 +8,14 @@ import useUserLocation from '@/hooks/useUserLocation';
 import {numbers} from '@/constants/numbers';
 import usePermission from '@/hooks/usePermission';
 import Toast from 'react-native-toast-message';
-import CustomMarker from '@/components/CustomMarker';
+import CustomMarker from '@/components/common/CustomMarker';
 import useMoveMapView from '@/hooks/useMoveMapView';
-import MapIconButton from '@/components/MapIconButton';
+import MapIconButton from '@/components/map/MapIconButton';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {MapStackParamList} from '@/types/navigation';
 import useGetMarkers from '@/hooks/useGetMarkers';
-import MarkerModal from '@/components/MarkerModal';
+import MarkerModal from '@/components/map/MarkerModal';
 import useModal from '@/hooks/useModal';
 type Navigation = StackNavigationProp<MapStackParamList>;
 
@@ -23,7 +23,7 @@ function MapHomeScreen() {
   const navigation = useNavigation<Navigation>();
   const inset = useSafeAreaInsets();
   const [markerId, setMarkerId] = useState<number>();
-  const markModal = useModal();
+  const markerModal = useModal();
   const {userLocation, isUserLocationError} = useUserLocation();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
   const [selectedLocation, setSelectedLocation] = useState<LatLng | null>(null);
@@ -46,7 +46,7 @@ function MapHomeScreen() {
 
   const handlePressMarker = (id: number, coordinate: LatLng) => {
     setMarkerId(id);
-    markModal.show();
+    markerModal.show();
     moveMapView(coordinate);
   };
 
@@ -103,8 +103,8 @@ function MapHomeScreen() {
       </View>
       <MarkerModal
         markerId={Number(markerId)}
-        isVisible={markModal.isVisible}
-        hide={markModal.hide}
+        isVisible={markerModal.isVisible}
+        hide={markerModal.hide}
       />
     </>
   );

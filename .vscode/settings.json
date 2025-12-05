@@ -1,3 +1,4 @@
 {
-    "gitHistory.avatarCacheExpiration": 0
+  "gitHistory.avatarCacheExpiration": 0,
+  "typescript.tsserver.experimental.useVsCodeWatcher": false
 }

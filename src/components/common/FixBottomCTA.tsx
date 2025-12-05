@@ -1,5 +1,5 @@
 import {StyleSheet, View} from 'react-native';
-import CustomButton from '@/components/CustomButton';
+import CustomButton from '@/components/common/CustomButton';
 import {colors} from '@/constants/colors';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
