@@ -1,4 +1,6 @@
 {
   "gitHistory.avatarCacheExpiration": 0,
-  "typescript.tsserver.experimental.useVsCodeWatcher": false
+  "typescript.tsserver.log": "off",
+  "typescript.disableAutomaticTypeAcquisition": true,
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false
 }

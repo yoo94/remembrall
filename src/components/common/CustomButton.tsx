@@ -13,6 +13,7 @@ function CustomButton({
   label,
   variant = 'filled',
   size = 'large',
+  style = null,
   ...props
 }: CustomButtonProps) {
   return (
@@ -22,6 +23,7 @@ function CustomButton({
         styles[variant],
         styles[size],
         pressed && styles.pressed,
+        style,
       ]}
       {...props}>
       <Text style={styles[`${variant}Text`]}>{label}</Text>
