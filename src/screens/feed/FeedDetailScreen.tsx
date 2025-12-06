@@ -38,7 +38,6 @@ function FeedDetailScreen({route}: Props) {
   const handlePressLocation = () => {
     const {latitude, longitude} = post;
     setMoveLocation({latitude, longitude});
-
     navigation.navigate('Map', {
       screen: 'MapHome',
     });

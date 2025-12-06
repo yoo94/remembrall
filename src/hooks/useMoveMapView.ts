@@ -1,28 +1,37 @@
 import {numbers} from '@/constants';
-import {useRef, useState} from 'react';
+import {useRef, useState, useEffect, useCallback} from 'react';
 import MapView, {LatLng, Region} from 'react-native-maps';
+import useLocationStore from '@/store/location';
 
 type Delta = Pick<Region, 'latitudeDelta' | 'longitudeDelta'>;
 
 function useMoveMapView() {
-  //지도 ref
   const mapRef = useRef<MapView | null>(null);
-  const [regionDelta, setRegionDelta] = useState<Delta>(numbers.INITIAL_DELTA); // 지도 확대 정도 저장 상태
+  const [regionDelta, setRegionDelta] = useState<Delta>(numbers.INITIAL_DELTA);
+  const {moveLocation} = useLocationStore();
 
-  //지도 이동 함수
-  const moveMapView = (coordinate: LatLng, delta?: Delta) => {
-    if (mapRef.current) {
-      mapRef.current.animateToRegion({
-        ...coordinate,
-        ...(delta ?? regionDelta),
-      });
-    }
-  };
+  const moveMapView = useCallback(
+    (coordinate: LatLng, delta?: Delta) => {
+      if (mapRef.current) {
+        mapRef.current.animateToRegion({
+          ...coordinate,
+          ...(delta ?? regionDelta),
+        });
+      }
+    },
+    [regionDelta],
+  );
 
-  const handleChangeDelta = (region: Region) => {
+  const handleChangeDelta = useCallback((region: Region) => {
     const {latitudeDelta, longitudeDelta} = region;
     setRegionDelta({latitudeDelta, longitudeDelta});
-  };
+  }, []);
+
+  useEffect(() => {
+    if (moveLocation) {
+      moveMapView(moveLocation);
+    }
+  }, [moveLocation, moveMapView]);
 
   return {mapRef, moveMapView, handleChangeDelta};
 }
