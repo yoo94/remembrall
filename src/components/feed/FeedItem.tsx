@@ -3,54 +3,58 @@ import {
   Dimensions,
   Image,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   View,
 } from 'react-native';
-import {ResponsePost} from '@/api/post';
-import {colors} from '@/constants';
+import {baseUrls} from '@/api/axios';
+import {colors} from '@/constants/colors';
 import {getDateTimeWithSeparator} from '@/utils/date';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {FeedStackParamList} from '@/types/navigation';
+import {ResponsePost} from '@/api/post';
 
 interface FeedItemProps {
   post: ResponsePost;
 }
 
 function FeedItem({post}: FeedItemProps) {
-  return (
-    <View style={styles.container}>
-      <View>
-        {post.imageUris.length > 0 && (
-          <View key={post.id} style={styles.imageContainer}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: `${
-                  Platform.OS === 'ios'
-                    ? 'http://localhost:3030/'
-                    : 'http://10.0.2.2:3030/'
-                }${post.imageUris[0]?.uri}`,
-              }}
-              resizeMode="cover"
-            />
-          </View>
-        )}
-        {post.imageUris.length === 0 && (
-          <View style={[styles.imageContainer, styles.emptyImageContainer]}>
-            <Text style={styles.descriptionText}>No Image</Text>
-          </View>
-        )}
+  const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
 
-        <View style={styles.textContainer}>
-          <Text style={styles.dateText}>
-            {getDateTimeWithSeparator(post.date, '/')} 
-          </Text>
-          <Text style={styles.titleText}>{post.title}</Text>
-          <Text style={styles.descriptionText} numberOfLines={1}>
-            {post.description}
-          </Text>
+  return (
+    <Pressable
+      style={styles.container}
+      onPress={() => navigation.navigate('FeedDetail', {id: post.id})}>
+      {post.imageUris.length > 0 && (
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.image}
+            source={{
+              uri: `${
+                Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
+              }/${post.imageUris[0].uri}`,
+            }}
+            resizeMode="cover"
+          />
         </View>
+      )}
+      {post.imageUris.length === 0 && (
+        <View style={[styles.imageContainer, styles.emptyImageContainer]}>
+          <Text style={styles.descriptionText}>No Image</Text>
+        </View>
+      )}
+      <View style={styles.textContainer}>
+        <Text style={styles.dateText}>
+          {getDateTimeWithSeparator(post.date, '/')}
+        </Text>
+        <Text style={styles.titleText}>{post.title}</Text>
+        <Text style={styles.descriptionText} numberOfLines={1}>
+          {post.description}
+        </Text>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -73,8 +77,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderColor: colors.GRAY_200,
-    borderRadius: 5,
     borderWidth: 1,
+    borderRadius: 5,
   },
   textContainer: {
     marginTop: 7,

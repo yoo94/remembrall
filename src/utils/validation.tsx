@@ -34,19 +34,17 @@ function validateSignup(values: UserInfomation & {passwordConfirm: string}) {
   return signupErrors;
 }
 
-type AddPostForm = {
-  title: string;
-  description: string;
-};
-
-function validateAddPost(values: AddPostForm) {
+function validateAddPost(values: {title: string}) {
   const errors = {
     title: '',
     description: '',
+    date: '',
+    color: '',
+    score: '',
   };
 
-  if (values.title.trim().length === 0) {
-    errors.title = '제목을 입력해주세요.';
+  if (values.title.trim() === '') {
+    errors.title = '제목은 1~30자 이내로 입력해주세요.';
   }
 
   return errors;

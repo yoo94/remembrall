@@ -17,7 +17,7 @@ import useGetPost from '@/hooks/queries/useGetPost';
 import {colors} from '@/constants';
 import CustomMarker from '@/components/common/CustomMarker';
 import {baseUrls} from '@/api/axios';
-import {getDateWithSeparator} from '@/utils/date';
+import {getDateTimeWithSeparator} from '@/utils/date';
 
 interface MarkerModalProps {
   markerId: number | null;
@@ -43,10 +43,8 @@ function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
                     style={styles.image}
                     source={{
                       uri: `${
-                        Platform.OS === 'ios'
-                          ? baseUrls.ios
-                          : baseUrls.android
-                      }${post.imageUris[0]?.uri}`,
+                        Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
+                      }/${post.imageUris[0]?.uri}`, // 여기에 / 추가
                     }}
                     resizeMode="cover"
                   />
@@ -70,7 +68,7 @@ function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
                 </View>
                 <Text style={styles.titleText}>{post.title}</Text>
                 <Text style={styles.dateText}>
-                  {getDateWithSeparator(post.date, '.')}
+                  {getDateTimeWithSeparator(post.date, '.')}
                 </Text>
               </View>
             </View>

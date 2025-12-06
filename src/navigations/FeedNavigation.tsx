@@ -5,6 +5,7 @@ import EditLocationScreen from '@/screens/feed/EditLocationScreen';
 import FeedDetailScreen from '@/screens/feed/FeedDetailScreen';
 import FeedFavoriteScreen from '@/screens/feed/FeedFavoriteScreen';
 import FeedListScreen from '@/screens/feed/FeedListScreen';
+import DrawerButton from '@/components/common/DrawerButton';
 
 export const FeedStack = createStackNavigator({
   screenOptions: {
@@ -27,6 +28,7 @@ export const FeedStack = createStackNavigator({
       screen: FeedListScreen,
       options: {
         title: '피드',
+        headerLeft: () => <DrawerButton />,
       },
     },
     FeedDetail: {

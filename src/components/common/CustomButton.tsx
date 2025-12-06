@@ -4,7 +4,7 @@ import {Pressable, PressableProps, StyleSheet, Text} from 'react-native';
 import {colors} from '@/constants/colors';
 
 interface CustomButtonProps extends PressableProps {
-  label: string;
+  label: string | React.ReactElement;
   variant?: 'filled' | 'outlined';
   size?: 'large' | 'small';
 }
