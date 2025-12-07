@@ -7,6 +7,7 @@ import Toast, {
   ErrorToast,
 } from 'react-native-toast-message';
 import {colors} from '@/constants/colors';
+import {StyleSheet} from 'react-native';
 
 const toastConfig = {
   success: (props: BaseToastProps) => (

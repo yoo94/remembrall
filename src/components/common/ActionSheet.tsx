@@ -49,13 +49,12 @@ function ActionMain({
       animationType={animationType}
       onRequestClose={hideAction}
       {...props}>
-      <ActionSheetContext value={{onPressOutSide}}>
+      <ActionSheetContext.Provider value={{onPressOutSide}}>
         {children}
-      </ActionSheetContext>
+      </ActionSheetContext.Provider>
     </Modal>
   );
 }
-
 function Background({children}: PropsWithChildren) {
   const actionSheetContext = useContext(ActionSheetContext);
 
