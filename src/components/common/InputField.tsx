@@ -1,30 +1,36 @@
 import {colors} from '@/constants/colors';
-import React from 'react';
+import React, {Ref} from 'react';
 import {StyleSheet, Text, TextInput, TextInputProps, View} from 'react-native';
 
 interface InputFieldProps extends TextInputProps {
+  ref?: Ref<TextInput>;
   error?: string;
   touched?: boolean;
-  ref?: React.Ref<TextInput>;
   disabled?: boolean;
 }
 
-function InputField({error, touched, disabled, ...props}: InputFieldProps) {
+function InputField({
+  ref,
+  error,
+  touched,
+  disabled = false,
+  ...props
+}: InputFieldProps) {
   return (
     <View>
       <TextInput
-        ref={props.ref}
+        ref={ref}
         placeholderTextColor={colors.GRAY_500}
+        autoCapitalize="none"
         spellCheck={false}
         autoCorrect={false}
-        autoCapitalize="none"
-        editable={!disabled}
         style={[
           styles.input,
-          props.multiline && styles.multiline,
           disabled && styles.disabled,
+          props.multiline && styles.multiLine,
           touched && Boolean(error) && styles.inputError,
         ]}
+        editable={!disabled}
         {...props}
       />
       {touched && Boolean(error) && <Text style={styles.error}>{error}</Text>}
@@ -42,6 +48,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: colors.BLACK,
   },
+  multiLine: {
+    height: 150,
+    paddingVertical: 10,
+    textAlignVertical: 'top',
+  },
   inputError: {
     borderWidth: 1,
     borderColor: colors.RED_300,
@@ -50,11 +61,6 @@ const styles = StyleSheet.create({
     color: colors.RED_500,
     fontSize: 12,
     paddingTop: 5,
-  },
-  multiline: {
-    height: 150,
-    paddingVertical: 10,
-    textAlignVertical: 'top',
   },
   disabled: {
     backgroundColor: colors.GRAY_200,

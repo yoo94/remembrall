@@ -10,14 +10,14 @@ import {
 } from 'react-native';
 import {baseUrls} from '@/api/axios';
 import {colors} from '@/constants/colors';
+import {Post} from '@/types/domain';
 import {getDateTimeWithSeparator} from '@/utils/date';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {FeedStackParamList} from '@/types/navigation';
-import {ResponsePost} from '@/api/post';
 
 interface FeedItemProps {
-  post: ResponsePost;
+  post: Post;
 }
 
 function FeedItem({post}: FeedItemProps) {

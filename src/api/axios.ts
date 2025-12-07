@@ -8,9 +8,6 @@ export const baseUrls = {
 
 const axiosInstance = axios.create({
   baseURL: Platform.OS === 'android' ? baseUrls.android : baseUrls.ios,
-  headers: {
-    'Content-Type': 'application/json',
-  },
 });
 
-export {axiosInstance};
+export default axiosInstance;

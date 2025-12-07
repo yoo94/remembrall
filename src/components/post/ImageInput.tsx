@@ -1,8 +1,8 @@
 import React from 'react';
 import {Pressable, StyleSheet, Text} from 'react-native';
-import Icon from '@react-native-vector-icons/ionicons';
+import Ionicons from '@react-native-vector-icons/ionicons';
 
-import {colors} from '@/constants';
+import {colors} from '@/constants/colors';
 
 interface ImageInputProps {
   onChange: () => void;
@@ -10,9 +10,14 @@ interface ImageInputProps {
 
 function ImageInput({onChange}: ImageInputProps) {
   return (
-    <Pressable style={styles.imageInput} onPress={onChange}>
-      <Icon name="camera-outline" size={20} color={colors.GRAY_500} />
-      <Text style={styles.text}>사진 추가</Text>
+    <Pressable
+      style={({pressed}) => [
+        pressed && styles.imageInputPressed,
+        styles.imageInput,
+      ]}
+      onPress={onChange}>
+      <Ionicons name="camera-outline" size={20} color={colors.GRAY_500} />
+      <Text style={styles.inputText}>사진 추가</Text>
     </Pressable>
   );
 }
@@ -20,16 +25,20 @@ function ImageInput({onChange}: ImageInputProps) {
 const styles = StyleSheet.create({
   imageInput: {
     borderWidth: 1.5,
+    borderStyle: 'dotted',
     borderColor: colors.GRAY_300,
-    borderStyle:'dotted',
-    height:70,
-    width:70,
-    justifyContent:'center',
-    alignItems:'center',
+    height: 70,
+    width: 70,
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: 5,
   },
-  text: {
+  imageInputPressed: {
+    opacity: 0.5,
+  },
+  inputText: {
+    fontSize: 12,
     color: colors.GRAY_500,
-    fontSize: 14,
   },
 });
 

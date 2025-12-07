@@ -1,19 +1,20 @@
+import {useEffect} from 'react';
+import {useMutation, useQuery} from '@tanstack/react-query';
+
 import {
   getAccessToken,
   getProfile,
+  logout,
   postLogin,
   postSignup,
-  logout,
 } from '@/api/auth';
 import queryClient from '@/api/queryClient';
+import {queryKeys, storageKeys} from '@/constants/keys';
 import {numbers} from '@/constants/numbers';
 import {UseMutationCustomOptions, UseQueryCustomOptions} from '@/types/api';
 import {Profile} from '@/types/domain';
 import {removeEncryptStorage, setEncryptStorage} from '@/utils/encryptStorage';
 import {removeHeader, setHeader} from '@/utils/header';
-import {useMutation, useQuery} from '@tanstack/react-query';
-import {useEffect} from 'react';
-import {storageKeys, queryKeys} from '@/constants/keys';
 
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
@@ -28,10 +29,8 @@ function useLogin(mutationOptions?: UseMutationCustomOptions) {
     onSuccess: async ({accessToken, refreshToken}) => {
       setHeader('Authorization', `Bearer ${accessToken}`);
       await setEncryptStorage(storageKeys.REFRESH_TOKEN, refreshToken);
-      // 프로필 데이터 미리 가져오기 (prefetch)
       queryClient.fetchQuery({
-        queryKey: [queryKeys.AUTH, queryKeys.GET_PROFILE],
-        queryFn: getProfile,
+        queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
       });
     },
     ...mutationOptions,
@@ -40,26 +39,28 @@ function useLogin(mutationOptions?: UseMutationCustomOptions) {
 
 function useGetRefreshToken() {
   const {data, isSuccess, isError} = useQuery({
-    queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN], // 캐싱을 위한 키
+    queryKey: [queryKeys.AUTH, queryKeys.GET_ACCESS_TOKEN],
     queryFn: getAccessToken,
-    staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME, // 토큰 캐싱 시간
-    refetchInterval: numbers.ACCESS_TOKEN_REFRESH_TIME, // 토큰 갱신 주기
+    staleTime: numbers.ACCESS_TOKEN_REFRESH_TIME,
+    refetchInterval: numbers.ACCESS_TOKEN_REFRESH_TIME,
   });
 
   useEffect(() => {
-    async () => {
-      if (isSuccess && data) {
+    (async () => {
+      if (isSuccess) {
         setHeader('Authorization', `Bearer ${data.accessToken}`);
         await setEncryptStorage(storageKeys.REFRESH_TOKEN, data.refreshToken);
       }
-    };
+    })();
   }, [isSuccess, data]);
 
   useEffect(() => {
-    if (isError) {
-      removeHeader('Authorization');
-      removeEncryptStorage(storageKeys.REFRESH_TOKEN);
-    }
+    (async () => {
+      if (isError) {
+        removeHeader('Authorization');
+        await removeEncryptStorage(storageKeys.REFRESH_TOKEN);
+      }
+    })();
   }, [isError]);
 
   return {isSuccess, isError};
@@ -73,7 +74,7 @@ function useGetProfile(queryOptions?: UseQueryCustomOptions<Profile>) {
   });
 }
 
-function useLogOut(mutationOptions?: UseMutationCustomOptions) {
+function useLogout(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: logout,
     onSuccess: async () => {
@@ -90,19 +91,20 @@ function useAuth() {
   const loginMutation = useLogin();
   const refreshTokenQuery = useGetRefreshToken();
   const {data, isSuccess: isLogin} = useGetProfile({
-    enabled: refreshTokenQuery.isSuccess, // 리프레시 토큰이 불러오기가 성공 때만 프로필 조회
+    enabled: refreshTokenQuery.isSuccess,
   });
-  const logoutMutation = useLogOut();
+  const logoutMutation = useLogout();
+
   return {
+    auth: {
+      id: data?.id || '',
+      nickname: data?.nickname || '',
+      email: data?.email || '',
+      imageUri: data?.imageUri || '',
+    },
     signupMutation,
     loginMutation,
     isLogin,
-    userInfo: {
-      id: data?.id || '',
-      email: data?.email || '',
-      nickname: data?.nickname || '',
-      imageUri: data?.imageUri || '',
-    },
     logoutMutation,
   };
 }

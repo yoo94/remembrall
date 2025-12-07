@@ -1,30 +1,31 @@
-import {colors} from '@/constants';
-import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
 import React, {ComponentProps} from 'react';
 import {Pressable, StyleSheet} from 'react-native';
+import FontAwesome6 from '@react-native-vector-icons/fontawesome6';
+
+import {colors} from '@/constants/colors';
 
 type SolidIconName = Extract<
-  ComponentProps<typeof FontAwesome6>['name'],
+  ComponentProps<typeof FontAwesome6>,
   {iconStyle: 'solid'}
->;
+>['name'];
 
 interface MapIconButtonProps {
   name: SolidIconName;
   onPress: () => void;
 }
 
-const MapIconButton = ({name, onPress}: MapIconButtonProps) => {
+function MapIconButton({name, onPress}: MapIconButtonProps) {
   return (
     <Pressable style={styles.mapButton} onPress={onPress}>
       <FontAwesome6
-        iconStyle="solid"
-        size={24}
         name={name}
+        iconStyle="solid"
+        size={25}
         color={colors.WHITE}
       />
     </Pressable>
   );
-};
+}
 
 const styles = StyleSheet.create({
   mapButton: {

@@ -6,11 +6,12 @@ import {
 import React from 'react';
 import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+
 import {colors} from '@/constants/colors';
 import useAuth from '@/hooks/queries/useAuth';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
-  const {userInfo} = useAuth();
+  const {auth} = useAuth();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -25,7 +26,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
               style={styles.userImage}
             />
           </View>
-          <Text style={styles.nickname}>{userInfo?.nickname}</Text>
+          <Text style={styles.nickname}>{auth.nickname}</Text>
         </Pressable>
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
@@ -35,6 +36,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
     </SafeAreaView>
   );
 }
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

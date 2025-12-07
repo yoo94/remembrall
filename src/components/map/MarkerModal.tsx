@@ -1,6 +1,8 @@
+import {baseUrls} from '@/api/axios';
+import {colors} from '@/constants/colors';
+import useGetPost from '@/hooks/queries/useGetPost';
 import React from 'react';
 import {
-  Dimensions,
   Image,
   Modal,
   Platform,
@@ -10,31 +12,27 @@ import {
   View,
 } from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import Octicons from '@react-native-vector-icons/ionicons';
-import Ionicons from '@react-native-vector-icons/ionicons';
 
-import useGetPost from '@/hooks/queries/useGetPost';
-import {colors} from '@/constants';
-import CustomMarker from '@/components/common/CustomMarker';
-import {baseUrls} from '@/api/axios';
+import Ionicons from '@react-native-vector-icons/ionicons';
 import {getDateTimeWithSeparator} from '@/utils/date';
 
 interface MarkerModalProps {
-  markerId: number | null;
+  markerId: number;
   isVisible: boolean;
   hide: () => void;
 }
 
 function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
   const {data: post, isPending, isError} = useGetPost(markerId);
+
   if (isPending || isError) {
     return <></>;
   }
 
   return (
-    <Modal visible={isVisible} transparent={true} animationType={'slide'}>
-      <SafeAreaView style={[styles.optionBackground]} onTouchEnd={hide}>
-        <Pressable style={styles.cardContainer} onPress={() => {}}>
+    <Modal visible={isVisible} transparent animationType="slide">
+      <SafeAreaView style={styles.background} onTouchEnd={hide}>
+        <Pressable style={styles.cardContainer}>
           <View style={styles.cardInner}>
             <View style={styles.cardAlign}>
               {post.imageUris.length > 0 && (
@@ -44,7 +42,7 @@ function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
                     source={{
                       uri: `${
                         Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
-                      }/${post.imageUris[0]?.uri}`, // 여기에 / 추가
+                      }/${post.imageUris[0]?.uri}`,
                     }}
                     resizeMode="cover"
                   />
@@ -53,20 +51,29 @@ function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
               {post.imageUris.length === 0 && (
                 <View
                   style={[styles.imageContainer, styles.emptyImageContainer]}>
-                  <CustomMarker color={post.color} score={post.score} />
+                  <Text style={styles.emptyText}>No Image</Text>
                 </View>
               )}
               <View style={styles.infoContainer}>
                 <View style={styles.addressContainer}>
-                  <Octicons name="location" size={10} color={colors.GRAY_500} />
+                  <Ionicons
+                    name="location-outline"
+                    size={10}
+                    color={colors.GRAY_500}
+                  />
                   <Text
                     style={styles.addressText}
-                    ellipsizeMode="tail"
-                    numberOfLines={1}>
+                    numberOfLines={1}
+                    ellipsizeMode="tail">
                     {post.address}
                   </Text>
                 </View>
-                <Text style={styles.titleText}>{post.title}</Text>
+                <Text
+                  style={styles.titleText}
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
+                  {post.title}
+                </Text>
                 <Text style={styles.dateText}>
                   {getDateTimeWithSeparator(post.date, '.')}
                 </Text>
@@ -74,11 +81,7 @@ function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
             </View>
 
             <View style={styles.nextButton}>
-              <Ionicons
-                name="chevron-forward-outline"
-                size={20}
-                color={colors.BLACK}
-              />
+              <Ionicons name="chevron-forward" size={25} color={colors.BLACK} />
             </View>
           </View>
         </Pressable>
@@ -88,20 +91,17 @@ function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
 }
 
 const styles = StyleSheet.create({
-  optionBackground: {
+  background: {
     flex: 1,
     justifyContent: 'flex-end',
   },
   cardContainer: {
     backgroundColor: colors.WHITE,
     margin: 10,
-    borderRadius: 20,
-    shadowColor: colors.BLACK,
-    shadowOffset: {width: 3, height: 3},
-    shadowOpacity: 0.2,
-    elevation: 1,
+    borderWidth: 1,
     borderColor: colors.GRAY_500,
-    borderWidth: 1.5,
+    borderRadius: 15,
+    boxShadow: '1px 1px 3px rgba(0, 0, 0, 0.3)',
   },
   cardInner: {
     padding: 20,
@@ -115,36 +115,38 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 35,
   },
-  emptyImageContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderColor: colors.GRAY_200,
-    borderRadius: 35,
-    borderWidth: 1,
-  },
   image: {
     width: '100%',
     height: '100%',
     borderRadius: 35,
+  },
+  emptyImageContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: colors.GRAY_200,
+  },
+  emptyText: {
+    fontSize: 12,
+    color: colors.GRAY_500,
+  },
+  infoContainer: {
+    marginLeft: 15,
+    gap: 5,
+  },
+  addressText: {
+    color: colors.GRAY_500,
+    fontSize: 10,
   },
   cardAlign: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  infoContainer: {
-    width: Dimensions.get('screen').width / 2,
-    marginLeft: 15,
-    gap: 5,
-  },
   addressContainer: {
-    gap: 5,
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  addressText: {
-    color: colors.GRAY_500,
-    fontSize: 10,
+    gap: 2,
   },
   titleText: {
     color: colors.BLACK,
@@ -159,7 +161,6 @@ const styles = StyleSheet.create({
   nextButton: {
     width: 40,
     height: 40,
-    borderRadius: 40,
     alignItems: 'flex-end',
     justifyContent: 'center',
   },

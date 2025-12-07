@@ -1,12 +1,12 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {LatLng, Marker, MyMapMarkerProps} from 'react-native-maps';
-import {colors} from '@/constants';
-import {MarkerColor} from '@/types';
+
+import {colors} from '@/constants/colors';
 
 interface CustomMarkerProps extends MyMapMarkerProps {
   coordinate?: LatLng;
-  color: MarkerColor;
+  color: string;
   score?: number;
 }
 
@@ -48,9 +48,9 @@ const styles = StyleSheet.create({
     width: 27,
     height: 27,
     borderRadius: 27,
+    borderColor: colors.BLACK,
     borderBottomRightRadius: 1,
     borderWidth: 1,
-    borderColor: colors.BLACK,
   },
   eye: {
     position: 'absolute',
@@ -69,34 +69,31 @@ const styles = StyleSheet.create({
   },
   mouth: {
     transform: [{rotate: '45deg'}],
-    borderTopColor: 'rgba(255,255,255 / 0.01)',
-    borderBottomColor: 'rgba(255,255,255 / 0.01)',
     width: 12,
     height: 12,
     borderWidth: 1,
     borderRadius: 12,
+    borderTopColor: 'rgba(255,255,255 / 0.01)',
+    borderBottomColor: 'rgba(255,255,255 / 0.01)',
   },
   good: {
-    transform: [{rotate: '225deg'}],
     marginLeft: 5,
     marginTop: 5,
-    borderRightColor: 'rgba(255,255,255 / 0.01)',
-    borderLeftColor: colors.BLACK,
-  },
-  soso: {
-    marginLeft: 13,
-    marginTop: 13,
-    width: 8,
-    height: 8,
-    borderLeftColor: colors.BLACK,
-    borderLeftWidth: 1,
-    transform: [{rotate: '45deg'}],
+    borderLeftColor: 'rgba(255,255,255 / 0.01)',
   },
   bad: {
     marginLeft: 12,
     marginTop: 12,
     borderRightColor: 'rgba(255,255,255 / 0.01)',
+  },
+  soso: {
+    width: 8,
+    height: 8,
     borderLeftColor: colors.BLACK,
+    borderLeftWidth: 1,
+    marginLeft: 13,
+    marginTop: 13,
+    transform: [{rotate: '45deg'}],
   },
 });
 

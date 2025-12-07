@@ -1,5 +1,5 @@
 import React from 'react';
-import {Pressable, StyleSheet, ViewStyle, StyleProp} from 'react-native';
+import {Pressable, StyleProp, StyleSheet, ViewStyle} from 'react-native';
 import {DrawerNavigationProp} from '@react-navigation/drawer';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from '@react-native-vector-icons/ionicons';
@@ -14,7 +14,7 @@ interface DrawerButtonProps {
   style?: StyleProp<ViewStyle>;
 }
 
-function DrawerButton({color = colors.BLACK, style}: DrawerButtonProps) {
+function DrawerButton({style, color = colors.BLACK}: DrawerButtonProps) {
   const navigation = useNavigation<Navigation>();
 
   return (

@@ -3,7 +3,6 @@ import {AppState} from 'react-native';
 
 function useAppState() {
   const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   const [isComeback, setIsComeback] = useState(false);
 
   useEffect(() => {
@@ -20,7 +19,6 @@ function useAppState() {
       }
 
       appState.current = nextAppState;
-      setAppStateVisible(appState.current);
     });
 
     return () => {
@@ -28,7 +26,7 @@ function useAppState() {
     };
   }, []);
 
-  return {isComeback, appStateVisible};
+  return {isComeback};
 }
 
 export default useAppState;

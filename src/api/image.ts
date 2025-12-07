@@ -1,6 +1,6 @@
-import {axiosInstance} from './axios';
+import axiosInstance from './axios';
 
-const uploadImages = async (body: FormData): Promise<string[]> => {
+async function uploadImages(body: FormData): Promise<string[]> {
   const {data} = await axiosInstance.post('/images', body, {
     headers: {
       'Content-Type': 'multipart/form-data',
@@ -8,6 +8,6 @@ const uploadImages = async (body: FormData): Promise<string[]> => {
   });
 
   return data;
-};
+}
 
 export {uploadImages};

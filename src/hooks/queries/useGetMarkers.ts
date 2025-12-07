@@ -1,8 +1,8 @@
-import {useQuery} from '@tanstack/react-query';
-
 import {getMarkers} from '@/api/marker';
-import {queryKeys} from '@/constants';
-import type {Marker, UseQueryCustomOptions} from '@/types';
+import {queryKeys} from '@/constants/keys';
+import {UseQueryCustomOptions} from '@/types/api';
+import {Marker} from '@/types/domain';
+import {useQuery} from '@tanstack/react-query';
 
 function useGetMarkers(queryOptions?: UseQueryCustomOptions<Marker[]>) {
   return useQuery({

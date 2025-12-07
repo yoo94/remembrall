@@ -1,10 +1,10 @@
-import {axiosInstance} from './axios';
-import type {Marker} from '@/types';
+import {Marker} from '@/types/domain';
+import axiosInstance from './axios';
 
-const getMarkers = async (): Promise<Marker[]> => {
+async function getMarkers(): Promise<Marker[]> {
   const {data} = await axiosInstance.get('/markers');
 
   return data;
-};
+}
 
 export {getMarkers};

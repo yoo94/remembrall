@@ -1,6 +1,7 @@
+import useAuth from '@/hooks/queries/useAuth';
 import AuthNavigation from './AuthNavigation';
 import DrawerNavigation from './DrawerNavigation';
-import useAuth from '@/hooks/queries/useAuth';
+
 function RootNavigation() {
   const {isLogin} = useAuth();
 
