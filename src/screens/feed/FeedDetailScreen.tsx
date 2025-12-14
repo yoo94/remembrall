@@ -44,6 +44,9 @@ function FeedDetailScreen({route}: Props) {
     const {latitude, longitude} = post;
     setMoveLocation({latitude, longitude});
 
+    setTimeout(() => {
+      setMoveLocation(null);
+    }, 1000);
     navigation.navigate('Map', {
       screen: 'MapHome',
     });

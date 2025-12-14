@@ -23,4 +23,53 @@ function getDateTimeWithSeparator(
   return `${formattedDate} ${hours}:${minutes}`;
 }
 
-export {getDateTimeWithSeparator, getDateUtils, getTimeUtils};
+export type MonthYear = {
+  month: number;
+  year: number;
+  startDate: Date;
+  firstDOW: number;
+  lastDate: number;
+};
+
+function getMonthYearDetails(initialDate: Date) {
+  const month = initialDate.getMonth() + 1;
+  const year = initialDate.getFullYear();
+  const startDate = new Date(`${year}-${month}`);
+  const firstDOW = startDate.getDay(); // 0(일요일) ~ 6(토요일)
+  const lastDateString = String(
+    new Date(
+      initialDate.getFullYear(),
+      initialDate.getMonth() + 1,
+      0,
+    ).getDate(),
+  );
+  const lastDate = Number(lastDateString);
+
+  return {month, year, startDate, firstDOW, lastDate};
+}
+
+function getNewMonthYear(prevData: MonthYear, increment: number) {
+  const newMonthYear = new Date(
+    prevData.startDate.setMonth(prevData.startDate.getMonth() + increment),
+  );
+
+  return getMonthYearDetails(newMonthYear);
+}
+
+function isSameAsCurrentDate(year: number, month: number, date: number) {
+  const currentDate = getDateTimeWithSeparator(new Date());
+  const inputDate = `${year}${String(month).padStart(2, '0')}${String(
+    date,
+  ).padStart(2, '0')}`;
+
+  return currentDate === inputDate;
+}
+
+export {
+  getDateTimeWithSeparator,
+  getDateUtils,
+  getTimeUtils,
+  isSameAsCurrentDate,
+  getMonthYearDetails,
+  getNewMonthYear,
+};
