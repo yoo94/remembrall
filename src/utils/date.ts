@@ -57,12 +57,17 @@ function getNewMonthYear(prevData: MonthYear, increment: number) {
 }
 
 function isSameAsCurrentDate(year: number, month: number, date: number) {
-  const currentDate = getDateTimeWithSeparator(new Date());
+  const {
+    year: currentYear,
+    month: currentMonth,
+    day: currentDay,
+  } = getDateUtils(new Date());
   const inputDate = `${year}${String(month).padStart(2, '0')}${String(
     date,
   ).padStart(2, '0')}`;
+  const currentDateString = `${currentYear}${currentMonth}${currentDay}`;
 
-  return currentDate === inputDate;
+  return currentDateString === inputDate;
 }
 
 export {
