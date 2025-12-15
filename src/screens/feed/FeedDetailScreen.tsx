@@ -108,7 +108,7 @@ function FeedDetailScreen({route}: Props) {
                 </Text>
               </View>
               <View style={styles.infoColumn}>
-                <Text style={styles.infoColumnKeyText}>평점</Text>
+                <Text style={styles.infoColumnKeyText}>중요도</Text>
                 <Text style={styles.infoColumnValueText}>{post.score}</Text>
               </View>
             </View>
