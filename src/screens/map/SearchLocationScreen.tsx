@@ -1,24 +1,51 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-import { Text } from 'react-native-gesture-handler';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import React, {useState} from 'react';
+import {Keyboard, StyleSheet, View} from 'react-native';
 
-interface SearchLocationProps {}
+import SearchInput from '@/components/map/SearchInput';
+import useUserLocation from '@/hooks/useUserLocation';
+import useSearchLocation from '@/hooks/useSearchLocation';
+import SearchRegionResult from '@/components/map/SearchRegionResult';
+import Pagination from '@/components/map/Pagination';
 
-function SearchLocation({}: SearchLocationProps) {
+function SearchLocationScreen() {
+  const [keyword, setKeyword] = useState('');
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const {userLocation} = useUserLocation();
+  const {regionInfo, pageParam, fetchNextPage, fetchPrevPage, hasNextPage} =
+    useSearchLocation(searchKeyword, userLocation);
+
+  const handleSubmitKeyword = () => {
+    setSearchKeyword(keyword);
+    Keyboard.dismiss();
+  };
+
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Search Location Screen</Text>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <SearchInput
+        autoFocus
+        value={keyword}
+        onChangeText={setKeyword}
+        onSubmit={handleSubmitKeyword}
+        placeholder="검색할 장소를 입력해주세요."
+      />
+      <SearchRegionResult regionInfo={regionInfo} />
+      <Pagination
+        pageParam={pageParam}
+        fetchNextPage={fetchNextPage}
+        fetchPrevPage={fetchPrevPage}
+        hasNextPage={hasNextPage}
+        totalLength={regionInfo.length}
+      />
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 20,
+    gap: 15,
   },
 });
 
-export default SearchLocation;
+export default SearchLocationScreen;
