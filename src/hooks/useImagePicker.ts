@@ -3,7 +3,7 @@ import ImagePicker from 'react-native-image-crop-picker';
 import Toast from 'react-native-toast-message';
 
 import useMutateImages from '@/hooks/queries/useMutateImages';
-import {getFormDataImages} from '@/utils/image';
+import getFormDataImages from '@/utils/image';
 import {ImageUri} from '@/types/domain';
 
 interface UseImagePickerProps {
@@ -28,7 +28,7 @@ function useImagePicker({initialImages}: UseImagePickerProps) {
       mediaType: 'photo',
       multiple: true,
       includeBase64: true,
-      maxFiles: 5,
+      maxFiles: 3,
     })
       .then(images => {
         const formData = getFormDataImages('images', images);

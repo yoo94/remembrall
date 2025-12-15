@@ -4,14 +4,19 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import React from 'react';
-import {Image, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Image, Platform, Pressable, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
+
+import {useNavigation} from '@react-navigation/native';
+import Ionicons from '@react-native-vector-icons/ionicons';
 
 import {colors} from '@/constants/colors';
 import useAuth from '@/hooks/queries/useAuth';
+import {baseUrls} from '@/api/axios';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {auth} = useAuth();
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView style={styles.container}>
@@ -22,7 +27,15 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         <Pressable style={styles.profileContainer}>
           <View style={styles.userImageContainer}>
             <Image
-              source={require('@/assets/default-user.png')}
+              source={
+                auth.imageUri
+                  ? {
+                      uri: `${
+                        Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
+                      }/${auth.imageUri}`,
+                    }
+                  : require('@/assets/default-user.png')
+              }
               style={styles.userImage}
             />
           </View>
@@ -31,7 +44,12 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <View style={styles.bottomContainer}>
-        <Text style={styles.menuText}>설정</Text>
+        <Pressable
+          style={styles.bottomMenu}
+          onPress={() => navigation.navigate('Setting')}>
+          <Ionicons name="settings-outline" size={20} color={colors.BLACK} />
+          <Text style={styles.menuText}>설정</Text>
+        </Pressable>
       </View>
     </SafeAreaView>
   );
@@ -72,6 +90,11 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontSize: 15,
+  },
+  bottomMenu: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 3,
   },
 });
 
