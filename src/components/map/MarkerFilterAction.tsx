@@ -1,9 +1,9 @@
-
 import React, {useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {ActionSheet} from '../common/ActionSheet';
 import {colors} from '@/constants/colors';
 import useFilterStore from '@/store/filter';
+import useThemeStore from '@/store/theme';
 
 interface MarkerFilterActionProps {
   isVisible: boolean;
@@ -11,6 +11,7 @@ interface MarkerFilterActionProps {
 }
 
 function MarkerFilterAction({isVisible, hideAction}: MarkerFilterActionProps) {
+  const {theme} = useThemeStore();
   const [filterCondition, setFilterCondition] = useState('색상');
   const {filters, setFilters} = useFilterStore();
 
@@ -28,7 +29,7 @@ function MarkerFilterAction({isVisible, hideAction}: MarkerFilterActionProps) {
           <ActionSheet.Title>마커 필터링</ActionSheet.Title>
           <ActionSheet.Divider />
           <View style={styles.filterContainer}>
-            {['색상', '중요도'].map(condition => (
+            {['색상', '평점'].map(condition => (
               <ActionSheet.Filter
                 key={condition}
                 isSelected={filterCondition === condition}
@@ -41,11 +42,11 @@ function MarkerFilterAction({isVisible, hideAction}: MarkerFilterActionProps) {
           {filterCondition === '색상' && (
             <>
               {[
-                colors.PINK_400,
-                colors.YELLOW_400,
-                colors.GREEN_400,
-                colors.BLUE_400,
-                colors.PURPLE_400,
+                colors[theme].PINK_400,
+                colors[theme].YELLOW_400,
+                colors[theme].GREEN_400,
+                colors[theme].BLUE_400,
+                colors[theme].PURPLE_400,
               ].map(color => (
                 <ActionSheet.CheckBox
                   key={color}
@@ -58,14 +59,14 @@ function MarkerFilterAction({isVisible, hideAction}: MarkerFilterActionProps) {
               ))}
             </>
           )}
-          {filterCondition === '중요도' && (
+          {filterCondition === '평점' && (
             <>
               {['1', '2', '3', '4', '5'].map(score => (
                 <ActionSheet.CheckBox
                   key={score}
                   isChecked={filters[score]}
                   onPress={() => handleFilter(score)}>
-                  {score}
+                  {score}점
                 </ActionSheet.CheckBox>
               ))}
             </>

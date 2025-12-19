@@ -1,12 +1,13 @@
 import {useRef} from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
+import {SafeAreaView, StyleSheet, TextInput, View} from 'react-native';
 
 import CustomButton from '@/components/common/CustomButton';
 import InputField from '@/components/common/InputField';
 import useForm from '@/hooks/useForm';
 import useAuth from '@/hooks/queries/useAuth';
 import {validateSignup} from '@/utils/validation';
+import Toast from 'react-native-toast-message';
+import {errorMessages} from '@/constants/messages';
 
 function SignupScreen() {
   const {signupMutation, loginMutation} = useAuth();
@@ -22,7 +23,14 @@ function SignupScreen() {
 
     signupMutation.mutate(
       {email, password},
-      {onSuccess: () => loginMutation.mutate({email, password})},
+      {
+        onSuccess: () => loginMutation.mutate({email, password}),
+        onError: error =>
+          Toast.show({
+            type: 'error',
+            text1: error.response?.data.message || errorMessages.UNEXPECT_ERROR,
+          }),
+      },
     );
   };
 

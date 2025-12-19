@@ -8,10 +8,13 @@ const queryKeys = {
   GET_POST: 'getPost',
   GET_POSTS: 'getPosts',
   GET_FAVORITE_POSTS: 'getFavoritePosts',
+  GET_CALENDAR_POSTS: 'getCalendarPosts',
 };
 
 const storageKeys = {
   REFRESH_TOKEN: 'refreshToken',
+  THEME_MODE: 'themeMode',
+  THEME_SYSTEM: 'themeSystem',
 };
 
-export { queryKeys, storageKeys };
+export {queryKeys, storageKeys};

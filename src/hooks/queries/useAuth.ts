@@ -20,6 +20,7 @@ import {removeHeader, setHeader} from '@/utils/header';
 function useSignup(mutationOptions?: UseMutationCustomOptions) {
   return useMutation({
     mutationFn: postSignup,
+    throwOnError: error => Number(error.response?.status) >= 500,
     ...mutationOptions,
   });
 }

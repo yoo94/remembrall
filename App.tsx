@@ -1,55 +1,47 @@
 import {QueryClientProvider} from '@tanstack/react-query';
-import RootNavigation from './src/navigations/RootNavigation';
-import queryClient from '@/api/queryClient';
 import Toast, {
   BaseToast,
   BaseToastProps,
   ErrorToast,
 } from 'react-native-toast-message';
+
+import RootNavigation from './src/navigations/RootNavigation';
+import queryClient from '@/api/queryClient';
 import {colors} from '@/constants/colors';
-import {StyleSheet} from 'react-native';
+import useThemeStorage from '@/hooks/useThemeStorage';
+import {StatusBar} from 'react-native';
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
     <BaseToast
       {...props}
-      style={[styles.toastSuccess]}
-      text1Style={styles.text1}
-      text2Style={styles.text2}
+      style={{borderLeftColor: colors['light'].BLUE_500}}
+      text1Style={{fontSize: 14}}
+      text2Style={{fontSize: 12}}
     />
   ),
   error: (props: BaseToastProps) => (
     <ErrorToast
       {...props}
-      style={[styles.toastError]}
-      text1Style={styles.text1}
-      text2Style={styles.text2}
+      style={{borderLeftColor: colors['light'].RED_500}}
+      text1Style={{fontSize: 14}}
+      text2Style={{fontSize: 12}}
     />
   ),
 };
 
 function App() {
+  const {theme} = useThemeStorage();
+
   return (
     <QueryClientProvider client={queryClient}>
+      <StatusBar
+        barStyle={theme === 'light' ? 'dark-content' : 'light-content'}
+      />
       <RootNavigation />
       <Toast config={toastConfig} />
     </QueryClientProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  toastSuccess: {
-    borderLeftColor: colors.BLUE_500,
-  },
-  toastError: {
-    borderLeftColor: colors.RED_500,
-  },
-  text1: {
-    fontSize: 14,
-  },
-  text2: {
-    fontSize: 12,
-  },
-});
 
 export default App;
