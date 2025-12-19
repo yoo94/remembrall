@@ -4,6 +4,8 @@ import Toast, {
   BaseToastProps,
   ErrorToast,
 } from 'react-native-toast-message';
+import React, {useEffect} from 'react';
+import BootSplash from 'react-native-bootsplash';
 
 import RootNavigation from './src/navigations/RootNavigation';
 import queryClient from '@/api/queryClient';
@@ -32,6 +34,16 @@ const toastConfig = {
 
 function App() {
   const {theme} = useThemeStorage();
+  useEffect(() => {
+    const init = async () => {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+    };
+
+    init().finally(async () => {
+      await BootSplash.hide({fade: true});
+      console.log('BootSplash has been hidden successfully');
+    });
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>

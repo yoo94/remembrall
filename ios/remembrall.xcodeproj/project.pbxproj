@@ -10,12 +10,15 @@
 		0C80B921A6F3F58F76C31292 /* libPods-remembrall.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-remembrall.a */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		23013EB306404C9384094C4F /* Config.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 3AFC5F9636A34BF7A219F9E8 /* Config.xcconfig */; };
+		6BAA7F84016E41DD9107C191 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 06B8B01A857D429AB2926664 /* Colors.xcassets */; };
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		A35EDC25A5D643FBA81C9813 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
+		B1539A8E01A04CA796BA88C8 /* BootSplash.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F564D8FEFB5045CB8FC87D08 /* BootSplash.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		06B8B01A857D429AB2926664 /* Colors.xcassets */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = folder.assetcatalog; name = Colors.xcassets; path = remembrall/Colors.xcassets; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* remembrall.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = remembrall.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = remembrall/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = remembrall/Info.plist; sourceTree = "<group>"; };
@@ -28,6 +31,7 @@
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = remembrall/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86A7025D2ED5F7B600DCD71C /* remembrall-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "remembrall-Bridging-Header.h"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
+		F564D8FEFB5045CB8FC87D08 /* BootSplash.storyboard */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = BootSplash.storyboard; path = remembrall/BootSplash.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,6 +54,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
+				F564D8FEFB5045CB8FC87D08 /* BootSplash.storyboard */,
+				06B8B01A857D429AB2926664 /* Colors.xcassets */,
 			);
 			name = remembrall;
 			sourceTree = "<group>";
@@ -167,6 +173,8 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				A35EDC25A5D643FBA81C9813 /* PrivacyInfo.xcprivacy in Resources */,
+				B1539A8E01A04CA796BA88C8 /* BootSplash.storyboard in Resources */,
+				6BAA7F84016E41DD9107C191 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
