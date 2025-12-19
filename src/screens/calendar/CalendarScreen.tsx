@@ -1,12 +1,7 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StyleSheet,
-  Text,
-} from 'react-native';
+import {Pressable, ScrollView, StyleSheet, Text} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 
 import Calendar from '@/components/calendar/Calendar';
 import {colors} from '@/constants/colors';
