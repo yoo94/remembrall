@@ -28,7 +28,7 @@ function KakaoLoginScreen() {
         grant_type: 'authorization_code',
         client_id: Config.KAKAO_REST_API_KEY,
         redirect_uri: REDIRECT_URI,
-        client_secret: 'yyLEd1eTZMJSr3D9W9xFZyoNHT3LCPVz',
+        client_secret: Config.KAKAO_SECRET_KEY,
         code,
       }).toString(),
     });
