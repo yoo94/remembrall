@@ -97,6 +97,9 @@ function MapHomeScreen() {
           ...numbers.INITIAL_DELTA,
         }}
         provider={PROVIDER_GOOGLE}
+        showsUserLocation={true}
+        followsUserLocation={false}
+        showsMyLocationButton={false}
         onRegionChangeComplete={handleChangeDelta}
         onLongPress={({nativeEvent}) =>
           setSelectLocation(nativeEvent.coordinate)

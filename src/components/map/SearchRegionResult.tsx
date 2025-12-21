@@ -40,6 +40,9 @@ function SearchRegionResult({regionInfo}: SearchRegionResultProps) {
 
     setMoveLocation(location);
     setSelectLocation(location);
+    setTimeout(() => {
+      setMoveLocation(null);
+    }, 1000);
   };
 
   return (

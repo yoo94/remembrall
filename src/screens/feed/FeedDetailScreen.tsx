@@ -50,6 +50,9 @@ function FeedDetailScreen({route}: Props) {
     navigation.navigate('Map', {
       screen: 'MapHome',
     });
+    setTimeout(() => {
+      setMoveLocation(null);
+    }, 1000);
   };
 
   return (
