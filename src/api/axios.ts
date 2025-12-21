@@ -2,8 +2,8 @@ import axios from 'axios';
 import {Platform} from 'react-native';
 
 export const baseUrls = {
-  android: 'http://10.0.2.2:3030',
-  ios: 'http://localhost:3030',
+  android: 'https://remembrall-server.onrender.com',
+  ios: 'https://remembrall-server.onrender.com',
 };
 
 const axiosInstance = axios.create({
