@@ -85,4 +85,5 @@ export {
   editProfile,
   kakaoLogin,
   appleLogin,
+  type ResponseToken,
 };

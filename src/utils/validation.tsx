@@ -15,6 +15,14 @@ function validateUser(values: UserInfomation) {
   if (values.password.length < 8 || values.password.length > 20) {
     errors.password = '비밀번호는 8~20자 사이로 입력해주세요.';
   }
+  // 영어, 숫자, 특수문자 포함 검증 추가
+  if (
+    !/(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]/.test(
+      values.password,
+    )
+  ) {
+    errors.password = '비밀번호는 영어, 숫자, 특수문자를 포함해야 합니다.';
+  }
 
   return errors;
 }
