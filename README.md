@@ -1,97 +1,179 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 📍 Remembrall
 
-# Getting Started
+> 지도 위에 추억을 기록하고, 그 장소를 다시 방문할 때 자동으로 추억을 되살려주는 위치 기반 일기 앱
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+<p align="center">
+  <img src="https://img.shields.io/badge/TypeScript-95.1%25-3178C6?style=flat-square&logo=typescript&logoColor=white" />
+  <img src="https://img.shields.io/badge/React_Native-61DAFB?style=flat-square&logo=react&logoColor=black" />
+  <img src="https://img.shields.io/badge/iOS-Swift-FA7343?style=flat-square&logo=swift&logoColor=white" />
+  <img src="https://img.shields.io/badge/Android-Kotlin-7F52FF?style=flat-square&logo=kotlin&logoColor=white" />
+</p>
 
-## Step 1: Start Metro
+---
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+## ✨ 소개
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+**Remembrall**은 해리포터의 '기억구슬(Remembrall)'에서 영감을 받은 위치 기반 일기 앱입니다. 
 
-```sh
-# Using npm
-npm start
+특별한 순간을 장소와 함께 기록하고, 그 장소를 다시 방문할 때 자동으로 알림을 받아 소중한 추억을 되살릴 수 있습니다.
 
-# OR using Yarn
-yarn start
+---
+
+## 🎯 주요 기능
+
+### 📝 지도 기반 일기 작성
+- 현재 위치 또는 원하는 장소에 일기를 작성할 수 있습니다
+- 지도에서 내 모든 일기를 한눈에 확인할 수 있습니다
+
+### 📍 위치 기반 푸시 알림
+- 일기를 작성했던 장소 근처를 지나갈 때 자동으로 알림
+- 과거의 추억을 자연스럽게 떠올릴 수 있습니다
+
+### 🗺️ 추억 지도
+- 지도 위에 표시된 마커를 통해 추억의 장소를 시각적으로 탐색
+- 나만의 추억 지도를 만들어갈 수 있습니다
+
+### 🔒 프라이버시 보호
+- 모든 일기는 안전하게 보관됩니다
+- 내 추억은 나만 볼 수 있습니다
+
+---
+
+## 🛠️ 기술 스택
+
+### Frontend
+- **React Native** - 크로스 플랫폼 모바일 앱 개발
+- **TypeScript** - 타입 안정성을 위한 정적 타입 언어
+
+### Mobile Platform
+- **iOS** (Swift) - 네이티브 iOS 기능 구현
+- **Android** (Kotlin) - 네이티브 Android 기능 구현
+
+### Core Features
+- **Geolocation API** - 위치 정보 수집
+- **Push Notification** - 위치 기반 알림 발송
+- **Maps Integration** - 지도 표시 및 마커 관리
+
+---
+
+## 📱 스크린샷
+
+> 추가 예정
+
+---
+
+## 🚀 시작하기
+
+### Prerequisites
+```bash
+node >= 18.x
+npm or yarn
+Xcode (iOS 개발)
+Android Studio (Android 개발)
 ```
 
-## Step 2: Build and run your app
+### Installation
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+1. 레포지토리 클론
+```bash
+git clone https://github.com/yoo94/remembrall.git
+cd remembrall
+```
 
-### Android
+2. 의존성 설치
+```bash
+npm install
+# or
+yarn install
+```
 
-```sh
-# Using npm
+3. iOS 설정 (macOS only)
+```bash
+cd ios
+pod install
+cd ..
+```
+
+4. 앱 실행
+```bash
+# iOS
+npm run ios
+# or
+yarn ios
+
+# Android
 npm run android
-
-# OR using Yarn
+# or
 yarn android
 ```
 
-### iOS
+---
 
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
+## 📂 프로젝트 구조
 
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
+```
+remembrall/
+├── src/
+│   ├── components/     # 재사용 가능한 컴포넌트
+│   ├── screens/        # 화면 컴포넌트
+│   ├── navigation/     # 네비게이션 설정
+│   ├── services/       # API 및 외부 서비스
+│   ├── utils/          # 유틸리티 함수
+│   ├── hooks/          # 커스텀 훅
+│   └── types/          # TypeScript 타입 정의
+├── ios/                # iOS 네이티브 코드
+├── android/            # Android 네이티브 코드
+└── assets/             # 이미지, 폰트 등 리소스
 ```
 
-Then, and every time you update your native dependencies, run:
+---
 
-```sh
-bundle exec pod install
-```
+## 🔐 권한 요구사항
 
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
+### iOS (Info.plist)
+- `NSLocationAlwaysAndWhenInUseUsageDescription` - 백그라운드 위치 추적
+- `NSLocationWhenInUseUsageDescription` - 위치 정보 사용
+- `NSUserNotificationsUsageDescription` - 푸시 알림
 
-```sh
-# Using npm
-npm run ios
+### Android (AndroidManifest. xml)
+- `ACCESS_FINE_LOCATION` - 정확한 위치 정보
+- `ACCESS_COARSE_LOCATION` - 대략적인 위치 정보
+- `ACCESS_BACKGROUND_LOCATION` - 백그라운드 위치 추적
+- `POST_NOTIFICATIONS` - 알림 권한
 
-# OR using Yarn
-yarn ios
-```
+---
 
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
+## 🤝 기여하기
 
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
+이슈와 PR은 언제나 환영합니다! 
 
-## Step 3: Modify your app
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-Now that you have successfully run the app, let's make changes!
+---
 
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
+## 📝 라이선스
 
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
+이 프로젝트는 MIT 라이선스 하에 있습니다.
 
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
+---
 
-## Congratulations! :tada:
+## 👨‍💻 개발자
 
-You've successfully run and modified your React Native App. :partying_face:
+**yoo94**
+- GitHub: [@yoo94](https://github.com/yoo94)
 
-### Now what?
+---
 
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
+## 📮 문의
 
-# Troubleshooting
+프로젝트에 대한 질문이나 제안이 있으시면 [Issue](https://github.com/yoo94/remembrall/issues)를 열어주세요.
 
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
+---
 
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+<p align="center">
+  Made with ❤️ by yoo94
+</p>
