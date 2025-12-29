@@ -7,40 +7,40 @@ import Config from 'react-native-config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import WebView, {WebViewNavigation} from 'react-native-webview';
 
-const REDIRECT_URI = `https://remembrall-server.onrender.com/auth/oauth/kakao`;
+const REDIRECT_URI = `${Config.REST_API_BASE_URL}/auth/oauth/kakao`;
 
 function KakaoLoginScreen() {
+  console.log(REDIRECT_URI);
   const {kakaoLoginMutation} = useAuth();
   const [isChangeUrl, setIsChangeUrl] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const requestToken = async (code: string) => {
-  try {
-    console.log('Authorization code:', code);
-    
-    const response = await axios({
-      method: 'post',
-      url: 'https://kauth.kakao.com/oauth/token',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-      },
-      data: new URLSearchParams({
-        grant_type: 'authorization_code',
-        client_id: Config.KAKAO_REST_API_KEY,
-        redirect_uri: REDIRECT_URI,
-        client_secret: Config.KAKAO_SECRET_KEY,
-        code,
-      }).toString(),
-    });
+    try {
+      console.log('Authorization code:', code);
 
-    console.log('Token response:', response.data);
-    kakaoLoginMutation.mutate(response.data.access_token);
-  } catch (error: any) {
-    console.error('Token request error:', error);
-    console.error('Error response:', error.response?.data);
-   
-  }
-};
+      const response = await axios({
+        method: 'post',
+        url: 'https://kauth.kakao.com/oauth/token',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+        },
+        data: new URLSearchParams({
+          grant_type: 'authorization_code',
+          client_id: Config.KAKAO_REST_API_KEY,
+          redirect_uri: REDIRECT_URI,
+          client_secret: Config.KAKAO_SECRET_KEY,
+          code,
+        }).toString(),
+      });
+
+      console.log('Token response:', response.data);
+      kakaoLoginMutation.mutate(response.data.access_token);
+    } catch (error: any) {
+      console.error('Token request error:', error);
+      console.error('Error response:', error.response?.data);
+    }
+  };
 
   const handleOnMessage = (event: any) => {
     if (event.nativeEvent.url.includes(`${REDIRECT_URI}?code=`)) {
@@ -51,7 +51,7 @@ function KakaoLoginScreen() {
 
   const handleNavigationStateChange = (event: WebViewNavigation) => {
     const isMatched = event.url.includes(`${REDIRECT_URI}?code=`);
-    
+
     if (isMatched) {
       const code = event.url.replace(`${REDIRECT_URI}?code=`, '');
       setIsChangeUrl(false);

@@ -42,7 +42,13 @@ function validateSignup(values: UserInfomation & {passwordConfirm: string}) {
   return signupErrors;
 }
 
-function validateAddPost(values: {title: string}) {
+function validateAddPost(values: {
+  title: string;
+  description?: string;
+  date?: Date;
+  color?: string;
+  score?: number;
+}) {
   const errors = {
     title: '',
     description: '',
@@ -53,6 +59,9 @@ function validateAddPost(values: {title: string}) {
 
   if (values.title.trim() === '') {
     errors.title = '제목은 1~30자 이내로 입력해주세요.';
+  }
+  if (values.description && values.description.length > 200) {
+    errors.description = '내용은 200자 이내로 입력해주세요.';
   }
 
   return errors;

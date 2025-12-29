@@ -4,6 +4,7 @@ import {StackScreenProps} from '@react-navigation/stack';
 import {useNavigation} from '@react-navigation/native';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import DatePicker from 'react-native-date-picker';
+import Toast from 'react-native-toast-message';
 
 import {FeedStackParamList} from '@/types/navigation';
 import useGetPost from '@/hooks/queries/useGetPost';
@@ -47,6 +48,23 @@ function EditLocationScreen({route}: Props) {
   const updatePost = useMutateUpdatePost();
 
   const handleSubmit = () => {
+    if (!postForm.values.title.trim()) {
+      Toast.show({
+        type: 'error',
+        text1: '제목을 입력해주세요.',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (!postForm.values.color) {
+      Toast.show({
+        type: 'error',
+        text1: '마커 색상을 선택해주세요.',
+        position: 'bottom',
+      });
+      return;
+    }
+
     updatePost.mutate(
       {
         id,

@@ -31,6 +31,8 @@
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>게시글 등록시 사진 선택을 위해 라이브러리 접근 권한이 필요합니다.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>위치 확인을 위해서 위치 접근 권한 동의가 필요합니다. 동의하면, 현재 위치의 장소를 등록하는데 사용됩니다. 설정에서 이를 변경할 수 있습니다. 위치는 서버에 전송되지 않습니다.</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -43,10 +45,15 @@
 	<string>게시글 등록시 사진 선택을 위해 라이브러리 접근 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>게시글 등록시 사진 선택을 위해 라이브러리 접근 권한이 필요합니다.</string>
-	<key>NSAppleMusicUsageDescription</key>
-	<string>게시글 등록시 사진 선택을 위해 라이브러리 접근 권한이 필요합니다.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>FontAwesome6_Brands.ttf</string>
+		<string>FontAwesome6_Regular.ttf</string>
+		<string>FontAwesome6_Solid.ttf</string>
+		<string>Ionicons.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -61,12 +68,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>FontAwesome6_Brands.ttf</string>
-		<string>FontAwesome6_Regular.ttf</string>
-		<string>FontAwesome6_Solid.ttf</string>
-		<string>Ionicons.ttf</string>
-	</array>
 </dict>
 </plist>

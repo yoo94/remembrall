@@ -61,13 +61,13 @@ function FeedDetailScreen({route}: Props) {
         <Ionicons
           name="chevron-back"
           size={30}
-          color={colors[theme].WHITE}
+          color={colors[theme].BLACK}
           onPress={() => navigation.goBack()}
         />
         <Ionicons
           name="ellipsis-vertical"
           size={30}
-          color={colors[theme].WHITE}
+          color={colors[theme].BLACK}
           onPress={detailAction.show}
         />
       </View>
@@ -115,7 +115,7 @@ function FeedDetailScreen({route}: Props) {
                 </Text>
               </View>
               <View style={styles.infoColumn}>
-                <Text style={styles.infoColumnKeyText}>평점</Text>
+                <Text style={styles.infoColumnKeyText}>중요도</Text>
                 <Text style={styles.infoColumnValueText}>{post.score}</Text>
               </View>
             </View>

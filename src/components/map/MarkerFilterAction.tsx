@@ -29,7 +29,7 @@ function MarkerFilterAction({isVisible, hideAction}: MarkerFilterActionProps) {
           <ActionSheet.Title>마커 필터링</ActionSheet.Title>
           <ActionSheet.Divider />
           <View style={styles.filterContainer}>
-            {['색상', '평점'].map(condition => (
+            {['색상', '중요도'].map(condition => (
               <ActionSheet.Filter
                 key={condition}
                 isSelected={filterCondition === condition}
@@ -59,7 +59,7 @@ function MarkerFilterAction({isVisible, hideAction}: MarkerFilterActionProps) {
               ))}
             </>
           )}
-          {filterCondition === '평점' && (
+          {filterCondition === '중요도' && (
             <>
               {['1', '2', '3', '4', '5'].map(score => (
                 <ActionSheet.CheckBox

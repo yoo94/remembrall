@@ -3,6 +3,7 @@ import {ScrollView, StyleSheet, View} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import DatePicker from 'react-native-date-picker';
+import Toast from 'react-native-toast-message';
 
 import InputField from '@/components/common/InputField';
 import CustomButton from '@/components/common/CustomButton';
@@ -35,7 +36,7 @@ function AddLocationScreen({route}: Props) {
       title: '',
       description: '',
       date: new Date(),
-      color: colors.PINK_400,
+      color: colors.light.PINK_400,
       score: 3,
     },
     validate: validateAddPost,
@@ -45,6 +46,24 @@ function AddLocationScreen({route}: Props) {
   usePermission('PHOTO');
 
   const handleSubmit = () => {
+    // 필드별 체크
+    if (!postForm.values.title.trim()) {
+      Toast.show({
+        type: 'error',
+        text1: '제목을 입력해주세요.',
+        position: 'bottom',
+      });
+      return;
+    }
+    if (!postForm.values.color) {
+      Toast.show({
+        type: 'error',
+        text1: '마커 색상을 선택해주세요.',
+        position: 'bottom',
+      });
+      return;
+    }
+
     createPost.mutate(
       {
         address,

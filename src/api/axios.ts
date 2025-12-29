@@ -1,13 +1,12 @@
 import axios from 'axios';
-import {Platform} from 'react-native';
+import Config from 'react-native-config';
 
 export const baseUrls = {
-  android: 'https://remembrall-server.onrender.com',
-  ios: 'https://remembrall-server.onrender.com',
+  android: Config.REST_API_BASE_URL,
+  ios: Config.REST_API_BASE_URL,
 };
 
 const axiosInstance = axios.create({
-  baseURL: Platform.OS === 'android' ? baseUrls.android : baseUrls.ios,
+  baseURL: Config.REST_API_BASE_URL,
 });
-
 export default axiosInstance;
