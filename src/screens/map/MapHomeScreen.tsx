@@ -26,7 +26,6 @@ import useThemeStore, {Theme} from '@/store/theme';
 type Navigation = StackNavigationProp<MapStackParamList>;
 
 function MapHomeScreen() {
-  const shapeList = ['default', 'exclaim', 'check', 'heart', 'crown'] as const;
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const navigation = useNavigation<Navigation>();
@@ -44,17 +43,6 @@ function MapHomeScreen() {
           (filters[String(marker.score)] ?? true),
       ),
   });
-  const getShapeFromColor = (color: string) => {
-    const colorList = [
-      colors[theme].PINK_400,
-      colors[theme].BLUE_400,
-      colors[theme].YELLOW_400,
-      colors[theme].GREEN_400,
-      colors[theme].PURPLE_400,
-    ];
-    const idx = colorList.indexOf(color);
-    return shapeList[idx] ?? 'default';
-  };
   const markerModal = useModal();
   const filterAction = useModal();
   usePermission('LOCATION');
@@ -121,7 +109,6 @@ function MapHomeScreen() {
             key={id}
             color={color}
             score={score}
-            shape={getShapeFromColor(color)}
             coordinate={coordinate}
             onPress={() => handlePressMarker(id, coordinate)}
           />

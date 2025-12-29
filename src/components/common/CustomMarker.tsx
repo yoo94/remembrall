@@ -1,56 +1,33 @@
 import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {LatLng, Marker, MyMapMarkerProps} from 'react-native-maps';
 
 import {colors} from '@/constants/colors';
 import useThemeStore, {Theme} from '@/store/theme';
 
-type MarkerShape = 'default' | 'heart' | 'star' | 'check' | 'exclaim' | 'crown';
-
 interface CustomMarkerProps extends MyMapMarkerProps {
   coordinate?: LatLng;
   color: string;
   score?: number;
-  shape?: MarkerShape;
 }
 
 function CustomMarker({
   coordinate,
   color,
   score = 5,
-  shape = 'default',
   ...props
 }: CustomMarkerProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
 
-  const symbolMap: Record<MarkerShape, string> = {
-    default: '',
-    heart: '❤',
-    star: '★',
-    check: '✔',
-    exclaim: '!',
-    crown: '👑',
-  };
-
   const markerView = (
     <View style={styles.container}>
       <View style={[styles.marker, {backgroundColor: color}]}>
-        {shape === 'default' ? (
-          <>
-            <View style={[styles.eye, styles.leftEye]} />
-            <View style={[styles.eye, styles.rightEye]} />
-            {score > 3 && <View style={[styles.mouth, styles.good]} />}
-            {score === 3 && <View style={styles.soso} />}
-            {score < 3 && <View style={[styles.mouth, styles.bad]} />}
-          </>
-        ) : (
-          <View style={styles.symbolWrapper}>
-            <View style={styles.symbolCounterRotate}>
-              <Text style={styles.symbolText}>{symbolMap[shape]}</Text>
-            </View>
-          </View>
-        )}
+        <View style={[styles.eye, styles.leftEye]} />
+        <View style={[styles.eye, styles.rightEye]} />
+        {score > 3 && <View style={[styles.mouth, styles.good]} />}
+        {score === 3 && <View style={styles.soso} />}
+        {score < 3 && <View style={[styles.mouth, styles.bad]} />}
       </View>
     </View>
   );
@@ -122,27 +99,6 @@ const styling = (theme: Theme) =>
       marginLeft: 13,
       marginTop: 13,
       transform: [{rotate: '45deg'}],
-    },
-
-    /* symbol styles for heart/star/check/exclaim/crown */
-    symbolWrapper: {
-      position: 'absolute',
-      left: 0,
-      right: 0,
-      top: 0,
-      bottom: 0,
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    symbolCounterRotate: {
-      transform: [{rotate: '-45deg'}],
-      alignItems: 'center',
-      justifyContent: 'center',
-    },
-    symbolText: {
-      color: colors[theme].UNCHANGE_BLACK,
-      fontSize: 12,
-      lineHeight: 14,
     },
   });
 

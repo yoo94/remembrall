@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {FlatList, StyleSheet} from 'react-native';
+import {FlatList, StyleSheet, View} from 'react-native';
 
 import useGetInfinitePosts from '@/hooks/queries/useGetInfinitePosts';
 import FeedItem from './FeedItem';
@@ -31,7 +31,6 @@ function FeedList() {
       data={posts?.pages.flat()}
       renderItem={({item}) => <FeedItem post={item} />}
       keyExtractor={item => String(item.id)}
-      numColumns={2}
       contentContainerStyle={styles.contentContainer}
       onEndReached={handleEndReached}
       onEndReachedThreshold={0.5}
@@ -39,6 +38,7 @@ function FeedList() {
       refreshing={isRefreshing}
       scrollIndicatorInsets={{right: 1}}
       indicatorStyle="black"
+      ItemSeparatorComponent={() => <View style={styles.separator} />}
     />
   );
 }
@@ -46,6 +46,11 @@ function FeedList() {
 const styles = StyleSheet.create({
   contentContainer: {
     padding: 15,
+  },
+  separator: {
+    height: 1,
+    backgroundColor: '#e6e6e6',
+    marginVertical: 8,
   },
 });
 

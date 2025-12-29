@@ -18,23 +18,18 @@ function MarkerColorInput({
   const {theme} = useThemeStore();
   const styles = styling(theme);
 
-  const colorList = [
-    colors[theme].PINK_400,
-    colors[theme].BLUE_400,
-    colors[theme].YELLOW_400,
-    colors[theme].GREEN_400,
-    colors[theme].PURPLE_400,
-  ];
-
-  const shapeList = ['default', 'exclaim', 'check', 'heart', 'crown'] as const;
-
   return (
     <View style={styles.container}>
       <Text style={styles.markerLabel}>마커선택</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.markerInputScroll}>
-          {colorList.map((selectColor, idx) => {
-            const shape = shapeList[idx] ?? 'default';
+          {[
+            colors[theme].PINK_400,
+            colors[theme].BLUE_400,
+            colors[theme].YELLOW_400,
+            colors[theme].GREEN_400,
+            colors[theme].PURPLE_400,
+          ].map(selectColor => {
             return (
               <Pressable
                 key={selectColor}
@@ -43,7 +38,7 @@ function MarkerColorInput({
                   color === selectColor && styles.pressedMarker,
                 ]}
                 onPress={() => onChangeColor(selectColor)}>
-                <CustomMarker color={selectColor} score={score} shape={shape} />
+                <CustomMarker color={selectColor} score={score} />
               </Pressable>
             );
           })}
