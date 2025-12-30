@@ -20,7 +20,7 @@ function MarkerColorInput({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.markerLabel}>마커선택</Text>
+      <Text style={styles.markerLabel}>마커 색상</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={styles.markerInputScroll}>
           {[

@@ -17,8 +17,8 @@ function ScoreInput({score, onChangeScore}: ScoreInputProps) {
   return (
     <View style={styles.container}>
       <View style={styles.labelContainer}>
-        <Text style={styles.labelText}>중요도</Text>
-        <Text style={styles.labelText}>{score}점</Text>
+        <Text style={styles.labelText}>마커 모양</Text>
+        <Text style={styles.labelText}>{score}번</Text>
       </View>
       <Slider
         value={score}
@@ -49,6 +49,10 @@ const styling = (theme: Theme) =>
     },
     labelText: {
       color: colors[theme].GRAY_700,
+    },
+    smallText: {
+      color: colors[theme].GRAY_700,
+      fontSize: 12,
     },
   });
 

@@ -2,12 +2,16 @@ import Indicator from '@/components/common/Indicator';
 import useAuth from '@/hooks/queries/useAuth';
 import axios from 'axios';
 import React, {useState} from 'react';
-import {StyleSheet, View} from 'react-native';
+import {Platform, StyleSheet, View} from 'react-native';
 import Config from 'react-native-config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import WebView, {WebViewNavigation} from 'react-native-webview';
 
-const REDIRECT_URI = `${Config.REST_API_BASE_URL}/auth/oauth/kakao`;
+const REDIRECT_URI = `${
+  Config.REST_API_BASE_URL || Platform.OS === 'android'
+    ? 'http://10.0.2.2:3030'
+    : 'http://localhost:3030'
+}/auth/oauth/kakao`;
 
 function KakaoLoginScreen() {
   console.log(REDIRECT_URI);

@@ -54,6 +54,12 @@
 		<string>FontAwesome6_Solid.ttf</string>
 		<string>Ionicons.ttf</string>
 	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
+	<key>NSPushNotificationUsageDescription</key>
+	<string>앱이 알림을 보내기 위해 권한이 필요합니다.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>

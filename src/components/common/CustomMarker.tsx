@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {LatLng, Marker, MyMapMarkerProps} from 'react-native-maps';
+import Ionicons from '@react-native-vector-icons/ionicons';
 
 import {colors} from '@/constants/colors';
 import useThemeStore, {Theme} from '@/store/theme';
@@ -19,15 +20,24 @@ function CustomMarker({
 }: CustomMarkerProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
+  const getIconName = (s: number) => {
+    if (s >= 5) return 'heart-outline';
+    if (s === 4) return 'star-outline';
+    if (s === 3) return 'restaurant-outline';
+    if (s === 2) return 'checkmark-outline';
+    return 'alert-outline';
+  };
 
   const markerView = (
     <View style={styles.container}>
       <View style={[styles.marker, {backgroundColor: color}]}>
-        <View style={[styles.eye, styles.leftEye]} />
-        <View style={[styles.eye, styles.rightEye]} />
-        {score > 3 && <View style={[styles.mouth, styles.good]} />}
-        {score === 3 && <View style={styles.soso} />}
-        {score < 3 && <View style={[styles.mouth, styles.bad]} />}
+        <View style={styles.iconWrapper}>
+          <Ionicons
+            name={getIconName(score)}
+            size={18}
+            color={colors[theme].UNCHANGE_BLACK}
+          />
+        </View>
       </View>
     </View>
   );
@@ -57,48 +67,12 @@ const styling = (theme: Theme) =>
       borderBottomRightRadius: 1,
       borderWidth: 1,
     },
-    eye: {
-      position: 'absolute',
-      backgroundColor: colors[theme].UNCHANGE_BLACK,
-      width: 4,
-      height: 4,
-      borderRadius: 4,
-    },
-    leftEye: {
-      top: 12,
-      left: 5,
-    },
-    rightEye: {
-      top: 5,
-      left: 12,
-    },
-    mouth: {
-      transform: [{rotate: '45deg'}],
-      width: 12,
-      height: 12,
-      borderWidth: 1,
-      borderRadius: 12,
-      borderTopColor: 'rgba(255,255,255 / 0.01)',
-      borderBottomColor: 'rgba(255,255,255 / 0.01)',
-    },
-    good: {
-      marginLeft: 5,
-      marginTop: 5,
-      borderLeftColor: 'rgba(255,255,255 / 0.01)',
-    },
-    bad: {
-      marginLeft: 12,
-      marginTop: 12,
-      borderRightColor: 'rgba(255,255,255 / 0.01)',
-    },
-    soso: {
-      width: 8,
-      height: 8,
-      borderLeftColor: colors[theme].UNCHANGE_BLACK,
-      borderLeftWidth: 1,
-      marginLeft: 13,
-      marginTop: 13,
-      transform: [{rotate: '45deg'}],
+    iconWrapper: {
+      transform: [{rotate: '-45deg'}],
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: '100%',
+      height: '100%',
     },
   });
 

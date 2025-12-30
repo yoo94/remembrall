@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import Ionicons from '@react-native-vector-icons/ionicons';
+import CustomMarker from '@/components/common/CustomMarker';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 
@@ -114,21 +115,21 @@ function FeedDetailScreen({route}: Props) {
                   {getDateTimeWithSeparator(post.date, '.')}
                 </Text>
               </View>
-              <View style={styles.infoColumn}>
-                <Text style={styles.infoColumnKeyText}>중요도</Text>
-                <Text style={styles.infoColumnValueText}>{post.score}</Text>
-              </View>
             </View>
+            <View style={styles.divider} />
             <View style={styles.infoRow}>
               <View style={styles.infoColumn}>
-                <Text style={styles.infoColumnKeyText}>마커색상</Text>
-                <View
-                  style={[styles.markerColor, {backgroundColor: post.color}]}
-                />
+                <Text style={styles.infoColumnKeyText}>마커</Text>
+                <CustomMarker color={post.color} score={post.score} />
               </View>
             </View>
           </View>
-          <Text style={styles.descriptionText}>{post.description}</Text>
+          <View style={styles.divider} />
+          <View style={styles.infoRow}>
+            <View style={styles.infoColumn}>
+              <Text style={styles.descriptionText}>{post.description}</Text>
+            </View>
+          </View>
         </View>
         <View style={{height: 10, backgroundColor: colors[theme].GRAY_100}} />
         {post.imageUris.length > 0 && (
@@ -194,6 +195,11 @@ const styling = (theme: Theme) =>
       paddingVertical: 15,
       backgroundColor: colors[theme].WHITE,
       marginBottom: 10,
+    },
+    divider: {
+      height: StyleSheet.hairlineWidth,
+      backgroundColor: colors[theme].GRAY_200,
+      marginVertical: 10,
     },
     emptyImageContainer: {
       height: Dimensions.get('screen').width,
