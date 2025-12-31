@@ -22,6 +22,7 @@ import useLocationStore from '@/store/location';
 import MarkerFilterAction from '@/components/map/MarkerFilterAction';
 import useFilterStore from '@/store/filter';
 import useThemeStore, {Theme} from '@/store/theme';
+import TutorialModal from '@/components/common/TutorialModal';
 
 type Navigation = StackNavigationProp<MapStackParamList>;
 
@@ -45,6 +46,7 @@ function MapHomeScreen() {
   });
   const markerModal = useModal();
   const filterAction = useModal();
+  const tutorial = useModal();
   usePermission('LOCATION');
 
   const handlePressUserLocation = () => {
@@ -117,6 +119,7 @@ function MapHomeScreen() {
         {selectLocation && <Marker coordinate={selectLocation} />}
       </MapView>
       <View style={styles.buttonList}>
+        <MapIconButton name="question" onPress={tutorial.show} />
         <MapIconButton
           name="magnifying-glass"
           onPress={() => navigation.navigate('SearchLocation')}
@@ -138,6 +141,7 @@ function MapHomeScreen() {
         isVisible={filterAction.isVisible}
         hideAction={filterAction.hide}
       />
+      <TutorialModal isVisible={tutorial.isVisible} hide={tutorial.hide} />
     </>
   );
 }

@@ -6,6 +6,7 @@ import DatePicker from 'react-native-date-picker';
 import Toast from 'react-native-toast-message';
 
 import InputField from '@/components/common/InputField';
+import InputNumberField from '@/components/common/InputNumberField';
 import CustomButton from '@/components/common/CustomButton';
 import MarkerColorInput from '@/components/post/MarkerColorInput';
 import ScoreInput from '@/components/post/ScoreInput';
@@ -38,6 +39,7 @@ function AddLocationScreen({route}: Props) {
       date: new Date(),
       color: colors.light.PINK_400,
       score: 3,
+      meter: '',
     },
     validate: validateAddPost,
   });
@@ -111,6 +113,11 @@ function AddLocationScreen({route}: Props) {
         <ScoreInput
           score={postForm.values.score}
           onChangeScore={value => postForm.onChange('score', value)}
+        />
+        <InputNumberField
+          placeholder="알림이 울릴 메모와의 거리를 입력해주세요."
+          value={postForm.values.meter}
+          onChangeText={text => postForm.onChange('meter', text)}
         />
         <DatePicker
           modal

@@ -48,6 +48,7 @@ function validateAddPost(values: {
   date?: Date;
   color?: string;
   score?: number;
+  meter?: string;
 }) {
   const errors = {
     title: '',
@@ -55,6 +56,7 @@ function validateAddPost(values: {
     date: '',
     color: '',
     score: '',
+    meter: '',
   };
 
   if (values.title.trim() === '') {

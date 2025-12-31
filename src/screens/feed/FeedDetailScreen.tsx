@@ -123,11 +123,21 @@ function FeedDetailScreen({route}: Props) {
                 <CustomMarker color={post.color} score={post.score} />
               </View>
             </View>
+            <View style={styles.divider} />
+            <View style={styles.infoRow}>
+              <View style={styles.infoColumn}>
+                <Text style={styles.descriptionText}>{post.description}</Text>
+              </View>
+            </View>
           </View>
           <View style={styles.divider} />
           <View style={styles.infoRow}>
             <View style={styles.infoColumn}>
-              <Text style={styles.descriptionText}>{post.description}</Text>
+              <Text style={styles.descriptionText}>
+                {post.meter
+                  ? `알림이 울릴 거리 : ${post.meter} M(미터)`
+                  : '알림 지정안함'}
+              </Text>
             </View>
           </View>
         </View>

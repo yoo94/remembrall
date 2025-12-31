@@ -9,6 +9,7 @@ interface Marker {
   longitude: number;
   color: string;
   score: number;
+  meter?: string;
 }
 
 interface Post extends Marker {
