@@ -18,6 +18,7 @@ interface Post extends Marker {
   date: Date | string;
   description: string;
   imageUris: ImageUri[];
+  meter: string;
   isFavorite?: boolean;
 }
 

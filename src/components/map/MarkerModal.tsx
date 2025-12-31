@@ -94,6 +94,14 @@ function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
                 <Text style={styles.dateText}>
                   {getDateTimeWithSeparator(post.date, '.')}
                 </Text>
+                <Text
+                  style={styles.addressText}
+                  numberOfLines={1}
+                  ellipsizeMode="tail">
+                  {post.meter
+                    ? `알림 설정 거리 : ${post.meter} M(미터)`
+                    : '알림 지정안함'}
+                </Text>
               </View>
             </View>
 
