@@ -34,25 +34,28 @@ function InputNumberField({
 
   // 숫자만 입력되도록 처리 + 쉼표 표시
   const handleChangeText = (text: string) => {
-  const onlyNumber = text.replace(/[^0-9]/g, '');
-  // 1000 초과 입력 방지
-  if (onlyNumber === '') {
-    onChangeText?.('');
-    return;
-  }
-  const num = parseInt(onlyNumber, 10);
-  if (num > 1000) {
-    onChangeText?.('1000');
-  } else {
-    onChangeText?.(onlyNumber);
-  }
-};
+    const onlyNumber = text.replace(/[^0-9]/g, '');
+    // 1000 초과 입력 방지
+    if (onlyNumber === '') {
+      onChangeText?.('');
+      return;
+    }
+    const num = parseInt(onlyNumber, 10);
+    if (num > 1000) {
+      onChangeText?.('1000');
+    } else {
+      onChangeText?.(onlyNumber);
+    }
+  };
 
   // 쉼표가 포함된 표시용 값
   const displayValue = value ? formatNumberWithComma(value) : '';
 
   return (
     <View>
+      <View style={styles.labelContainer}>
+        <Text style={styles.labelText}>알림 거리</Text>
+      </View>
       <View style={styles.row}>
         <TextInput
           ref={ref}
@@ -82,6 +85,14 @@ function InputNumberField({
 
 const styling = (theme: Theme) =>
   StyleSheet.create({
+    labelContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      marginBottom: 8,
+    },
+    labelText: {
+      color: colors[theme].GRAY_700,
+    },
     row: {
       flexDirection: 'row',
       alignItems: 'center',

@@ -19,14 +19,22 @@ interface TutorialModalProps {
 
 const tutorialPages = [
   {
-    title: '지도에서 메모 추가',
-    description: '지도를 1초간 길게 터치하고 + 버튼을 누르면 메모를 추가할 수 있습니다.',
+    title: '1.지도에서 메모 추가',
+    description:
+      '지도를 1초간 길게 터치하고 + 버튼을 누르면 메모를 추가할 수 있습니다.',
     image: require('@/assets/tutorial_map.png'), // 예시 이미지, 없으면 생략
   },
   {
-    title: '알람 설정',
-    description: '메모에서 알람 설정을 누르고 미터를 입력하면, 해당 거리 내 접근 시 알람이 울립니다.',
+    title: '2.알람 설정',
+    description:
+      '메모에서 알림거리를 설정하면, 해당 거리 내 접근 시 알람이 울립니다.',
     image: require('@/assets/tutorial_alarm.png'), // 예시 이미지, 없으면 생략
+  },
+  {
+    title: '3.알람 조건',
+    description:
+      '미입력시 알림은 제외됩니다. 소중한 메모만 알람으로 받아보세요.',
+    image: require('@/assets/tutorial_alarm2.png'), // 예시 이미지, 없으면 생략
   },
 ];
 
