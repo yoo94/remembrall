@@ -1,6 +1,11 @@
 import React, {useState} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
-import MapView, {LatLng, Marker, PROVIDER_GOOGLE} from 'react-native-maps';
+import MapView, {
+  LatLng,
+  Marker,
+  PROVIDER_GOOGLE,
+  Circle,
+} from 'react-native-maps';
 import {useSafeAreaInsets} from 'react-native-safe-area-context';
 import Toast from 'react-native-toast-message';
 
@@ -115,7 +120,13 @@ function MapHomeScreen() {
             onPress={() => handlePressMarker(id, coordinate)}
           />
         ))}
-
+        <Circle
+          center={userLocation}
+          radius={500}
+          strokeColor="rgba(0,191,255,0.7)" // 하늘색 테두리
+          fillColor="rgba(135,206,250,0.2)" // 하늘색 투명 채움
+          zIndex={2}
+        />
         {selectLocation && <Marker coordinate={selectLocation} />}
       </MapView>
       <View style={styles.buttonList}>
