@@ -11,9 +11,16 @@ import queryClient from '@/api/queryClient';
 import {colors} from '@/constants/colors';
 import useThemeStorage from '@/hooks/useThemeStorage';
 import {StatusBar, Platform, PermissionsAndroid} from 'react-native';
-
+import {Alert} from 'react-native';
 import {getApp} from '@react-native-firebase/app';
-import messaging, {getMessaging} from '@react-native-firebase/messaging';
+import {
+  getMessaging,
+  requestPermission,
+  onMessage,
+  onTokenRefresh,
+  getToken,
+  AuthorizationStatus,
+} from '@react-native-firebase/messaging';
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
@@ -49,12 +56,10 @@ function App() {
     } else {
       const app = getApp();
       const messagingInstance = getMessaging(app);
-      const authStatus = await messagingInstance.requestPermission?.();
-      // fallback to messaging().requestPermission() if undefined
-      const status = authStatus ?? (await messaging().requestPermission());
+      const status = await requestPermission(messagingInstance);
       return (
-        status === messaging.AuthorizationStatus.AUTHORIZED ||
-        status === messaging.AuthorizationStatus.PROVISIONAL
+        status === AuthorizationStatus.AUTHORIZED ||
+        status === AuthorizationStatus.PROVISIONAL
       );
     }
   };
@@ -62,23 +67,33 @@ function App() {
   const getFcmToken = async () => {
     const app = getApp();
     const messagingInstance = getMessaging(app);
-    const token = await messagingInstance.getToken();
-    if (token) console.log('🔥 FCM Token:', token);
-    else console.log('❗ 토큰 발급 실패');
+    const status = await requestPermission(messagingInstance);
+    const enabled =
+      status === AuthorizationStatus.AUTHORIZED ||
+      status === AuthorizationStatus.PROVISIONAL;
+    if (!enabled) {
+      console.log('알림 권한 거부됨');
+      return null;
+    }
+    const token = await getToken(messagingInstance);
+    return token;
   };
 
   useEffect(() => {
+    const app = getApp();
+    const messagingInstance = getMessaging(app);
+
     const init = async () => {
       const granted = await requestUserPermission();
       if (granted) await getFcmToken();
     };
     init();
 
-    const onMessageUnsub = messaging().onMessage(async remoteMessage => {
+    const onMessageUnsub = onMessage(messagingInstance, async remoteMessage => {
       console.log('[Remote Message] ', JSON.stringify(remoteMessage));
     });
 
-    const onTokenUnsub = messaging().onTokenRefresh(token => {
+    const onTokenUnsub = onTokenRefresh(messagingInstance, token => {
       console.log('🔁 FCM 토큰 갱신:', token);
     });
 
@@ -96,6 +111,16 @@ function App() {
       await BootSplash.hide({fade: true});
       console.log('BootSplash has been hidden successfully');
     });
+  }, []);
+
+  useEffect(() => {
+    const app = getApp();
+    const messagingInstance = getMessaging(app);
+    const unsubscribe = onMessage(messagingInstance, async remoteMessage => {
+      Alert.alert('새 메시지', JSON.stringify(remoteMessage.notification));
+      // 또는 Toast 등 원하는 UI 처리
+    });
+    return unsubscribe;
   }, []);
 
   return (

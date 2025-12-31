@@ -39,7 +39,7 @@ function AuthHomeScreen() {
       if (identityToken) {
         appleLoginMutation.mutate({
           identityToken,
-          appId: 'org.reactjs.native.example.remembrall',
+          appId: 'org.reactjs.native.yoo94.remembrall',
           nickname: fullName?.givenName ?? '',
         });
       }

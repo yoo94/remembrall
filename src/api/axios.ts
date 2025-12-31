@@ -6,7 +6,7 @@ export const baseUrls = {
   android: Config.REST_API_BASE_URL || 'http://10.0.2.2:3030',
   ios: Config.REST_API_BASE_URL || 'http://localhost:3030',
 };
-
+console.log(baseUrls);
 const axiosInstance = axios.create({
   baseURL: Platform.OS === 'android' ? baseUrls.android : baseUrls.ios,
 });

@@ -7,11 +7,13 @@ import Config from 'react-native-config';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import WebView, {WebViewNavigation} from 'react-native-webview';
 
-const REDIRECT_URI = `${
-  Config.REST_API_BASE_URL || Platform.OS === 'android'
-    ? 'http://10.0.2.2:3030'
-    : 'http://localhost:3030'
-}/auth/oauth/kakao`;
+const REDIRECT_URI = Config.REST_API_BASE_URL
+  ? `${Config.REST_API_BASE_URL}/auth/oauth/kakao`
+  : `${
+      Platform.OS === 'android'
+        ? 'http://10.0.2.2:3030'
+        : 'http://localhost:3030'
+    }/auth/oauth/kakao`;
 
 function KakaoLoginScreen() {
   console.log(REDIRECT_URI);

@@ -6,6 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "ios:dev": "ENVFILE=.env.development react-native run-ios",
+    "ios:myphone": "ENVFILE=.env.ios react-native run-ios",
     "start": "react-native start",
     "start:dev": "ENVFILE=.env.development react-native start",
     "start:prod": "ENVFILE=.env.production react-native start",

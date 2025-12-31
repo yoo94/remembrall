@@ -11,6 +11,7 @@ export type AuthStackParamList = {
   AuthHome: undefined;
   Login: undefined;
   Signup: undefined;
+  KakaoLogin: undefined;
 };
 
 export type FeedStackParamList = {

@@ -22,14 +22,29 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSAppTransportSecurity</key>
+	<!-- <key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<false/>
 		<key>NSAllowsLocalNetworking</key>
 		<true/>
+	</dict> -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+	<key>NSExceptionDomains</key>
+	<dict>
+		<key>210.217.23.217</key>
+		<dict>
+		<key>NSExceptionAllowsInsecureHTTPLoads</key>
+		<true/>
+		<key>NSIncludesSubdomains</key>
+		<true/>
+		</dict>
+	</dict>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>게시글 등록시 사진 선택을 위해 라이브러리 접근 권한이 필요합니다.</string>
@@ -45,6 +60,8 @@
 	<string>게시글 등록시 사진 선택을 위해 라이브러리 접근 권한이 필요합니다.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>게시글 등록시 사진 선택을 위해 라이브러리 접근 권한이 필요합니다.</string>
+	<key>NSPushNotificationUsageDescription</key>
+	<string>앱이 알림을 보내기 위해 권한이 필요합니다.</string>
 	<key>RCTNewArchEnabled</key>
 	<true/>
 	<key>UIAppFonts</key>
@@ -58,8 +75,6 @@
 	<array>
 		<string>remote-notification</string>
 	</array>
-	<key>NSPushNotificationUsageDescription</key>
-	<string>앱이 알림을 보내기 위해 권한이 필요합니다.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>
 	<key>UIRequiredDeviceCapabilities</key>
