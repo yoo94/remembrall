@@ -35,14 +35,14 @@ function InputNumberField({
   // 숫자만 입력되도록 처리 + 쉼표 표시
   const handleChangeText = (text: string) => {
     const onlyNumber = text.replace(/[^0-9]/g, '');
-    // 1000 초과 입력 방지
+    // 500 초과 입력 방지
     if (onlyNumber === '') {
       onChangeText?.('');
       return;
     }
     const num = parseInt(onlyNumber, 10);
-    if (num > 1000) {
-      onChangeText?.('1000');
+    if (num > 500) {
+      onChangeText?.('500');
     } else {
       onChangeText?.(onlyNumber);
     }
@@ -54,7 +54,7 @@ function InputNumberField({
   return (
     <View>
       <View style={styles.labelContainer}>
-        <Text style={styles.labelText}>알림 거리</Text>
+        <Text style={styles.labelText}>알림 거리 (50~500 m)</Text>
       </View>
       <View style={styles.row}>
         <TextInput

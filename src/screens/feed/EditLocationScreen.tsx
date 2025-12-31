@@ -66,7 +66,16 @@ function EditLocationScreen({route}: Props) {
       });
       return;
     }
-
+    const onlyNumber = postForm.values.meter.replace(/[^0-9]/g, '');
+    const num = parseInt(onlyNumber, 10);
+    if (isNaN(num) || num < 50 || num > 500) {
+      Toast.show({
+        type: 'error',
+        text1: '알림 거리는 50~500 사이의 숫자여야 합니다.',
+        position: 'bottom',
+      });
+      return;
+    }
     updatePost.mutate(
       {
         id,
