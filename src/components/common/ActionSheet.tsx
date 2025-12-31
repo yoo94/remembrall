@@ -184,6 +184,32 @@ function CheckBox({
   );
 }
 
+function MarkerCheckBox({
+  icon = null,
+  isChecked = false,
+  ...props
+}: {
+  icon?: ReactNode;
+  isChecked?: boolean;
+} & PressableProps) {
+  const {theme} = useThemeStore();
+  const styles = styling(theme);
+  return (
+    <Pressable {...props} style={styles.markerCheckBoxContainer}>
+      <View>
+        {isChecked && (
+          <Ionicons
+            size={18}
+            color={colors[theme].BLUE_500}
+            name="checkmark-circle"
+          />
+        )}
+      </View>
+      {icon}
+    </Pressable>
+  );
+}
+
 export const ActionSheet = Object.assign(ActionMain, {
   Container,
   Button,
@@ -192,6 +218,7 @@ export const ActionSheet = Object.assign(ActionMain, {
   Background,
   Filter,
   CheckBox,
+  MarkerCheckBox,
 });
 
 const styling = (theme: Theme) =>
@@ -265,5 +292,11 @@ const styling = (theme: Theme) =>
     checkBoxText: {
       color: colors[theme].BLACK,
       fontSize: 15,
+    },
+    markerCheckBoxContainer: {
+      width: 40,
+      height: 80,
+      alignItems: 'center',
+      justifyContent: 'center',
     },
   });

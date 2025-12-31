@@ -4,6 +4,8 @@ import {ActionSheet} from '../common/ActionSheet';
 import {colors} from '@/constants/colors';
 import useFilterStore from '@/store/filter';
 import useThemeStore from '@/store/theme';
+// CustomMarker를 import하세요. 경로는 실제 위치에 맞게 수정
+import CustomMarker from '../common/CustomMarker';
 
 interface MarkerFilterActionProps {
   isVisible: boolean;
@@ -59,17 +61,24 @@ function MarkerFilterAction({isVisible, hideAction}: MarkerFilterActionProps) {
               ))}
             </>
           )}
-          {filterCondition === '마커' && (
-            <>
+          {filterCondition === '마커 모양' && (
+            <View style={styles.markerShapeContainer}>
               {['1', '2', '3', '4', '5'].map(score => (
-                <ActionSheet.CheckBox
+                <ActionSheet.MarkerCheckBox
                   key={score}
                   isChecked={filters[score]}
-                  onPress={() => handleFilter(score)}>
-                  {score}점
-                </ActionSheet.CheckBox>
+                  onPress={() => handleFilter(score)}
+                  icon={
+                    <View>
+                      <CustomMarker
+                        color={colors[theme].ICON}
+                        score={Number(score)}
+                      />
+                    </View>
+                  }
+                />
               ))}
-            </>
+            </View>
           )}
           <ActionSheet.Divider />
           <ActionSheet.Button onPress={hideAction}>완료</ActionSheet.Button>
@@ -90,6 +99,10 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 20,
   },
+  markerShapeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    gap: 20,
+  },
 });
-
 export default MarkerFilterAction;

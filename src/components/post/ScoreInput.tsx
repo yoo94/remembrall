@@ -1,9 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
-import Slider from '@react-native-community/slider';
-
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import {colors} from '@/constants/colors';
 import useThemeStore, {Theme} from '@/store/theme';
+import CustomMarker from '../common/CustomMarker';
 
 interface ScoreInputProps {
   score: number;
@@ -18,18 +17,21 @@ function ScoreInput({score, onChangeScore}: ScoreInputProps) {
     <View style={styles.container}>
       <View style={styles.labelContainer}>
         <Text style={styles.labelText}>마커 모양</Text>
-        <Text style={styles.labelText}>{score}번</Text>
       </View>
-      <Slider
-        value={score}
-        onValueChange={onChangeScore}
-        step={1}
-        minimumValue={1}
-        maximumValue={5}
-        minimumTrackTintColor={colors[theme].PINK_700}
-        maximumTrackTintColor={colors[theme].GRAY_300}
-        thumbTintColor={colors[theme].GRAY_100}
-      />
+      <View style={styles.markerRow}>
+        {[1, 2, 3, 4, 5].map(s => (
+          <TouchableOpacity
+            key={s}
+            style={[
+              styles.markerWrapper,
+              score === s && styles.selectedMarkerWrapper,
+            ]}
+            onPress={() => onChangeScore(s)}
+            activeOpacity={0.7}>
+            <CustomMarker color={colors[theme].ICON} score={s} />
+          </TouchableOpacity>
+        ))}
+      </View>
     </View>
   );
 }
@@ -46,9 +48,23 @@ const styling = (theme: Theme) =>
     labelContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+      marginBottom: 8,
     },
     labelText: {
       color: colors[theme].GRAY_700,
+    },
+    markerRow: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginTop: 8,
+    },
+    markerWrapper: {
+      padding: 2,
+      borderRadius: 8,
+    },
+    selectedMarkerWrapper: {
+      backgroundColor: colors[theme].GRAY_200,
     },
     smallText: {
       color: colors[theme].GRAY_700,

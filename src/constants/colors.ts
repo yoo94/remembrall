@@ -13,6 +13,7 @@ const common = {
   PURPLE_400: '#C4C4E7',
   UNCHANGE_WHITE: '#fff',
   UNCHANGE_BLACK: '#000',
+  ICON: '#F8F8F8',
 };
 
 const colors = {
