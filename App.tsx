@@ -23,6 +23,7 @@ import {
   AuthorizationStatus,
 } from '@react-native-firebase/messaging';
 import useLocationStore from '@/store/location';
+import {navigate} from '@/navigations/navigationRef'; // 여기서 가져옴
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
@@ -45,7 +46,7 @@ const toastConfig = {
 
 function App() {
   const {theme} = useThemeStorage();
-  const {setSelectedMarkerId} = useLocationStore();
+
   const requestUserPermission = async () => {
     if (Platform.OS === 'android') {
       if (PermissionsAndroid && Platform.Version >= 33) {
@@ -120,7 +121,6 @@ function App() {
     const messagingInstance = getMessaging(app);
     const unsubscribe = onMessage(messagingInstance, async remoteMessage => {
       Alert.alert('새 메시지', JSON.stringify(remoteMessage.notification));
-      // 또는 Toast 등 원하는 UI 처리
     });
     return unsubscribe;
   }, []);
@@ -128,17 +128,29 @@ function App() {
   useEffect(() => {
     PushNotification.configure({
       onNotification: function (notification) {
+        console.log('알림:', notification);
+
         if (notification.userInteraction) {
-          // 알림 클릭 시
-          const markerId = notification.data?.markerId;
+          // iOS: userInfo, Android: data
+          const markerId =
+            notification.userInfo?.markerId || notification.data?.markerId;
+
+          console.log('클릭! markerId:', markerId);
+
           if (markerId) {
-            setSelectedMarkerId(Number(markerId));
+            // store에 직접 접근
+            useLocationStore.getState().setSelectedMarkerId(Number(markerId));
+
+            // navigationRef로 이동
+            setTimeout(() => {
+              navigate('Map', {screen: 'MapHome'});
+            }, 100);
           }
         }
       },
       requestPermissions: false,
+      popInitialNotification: true,
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
