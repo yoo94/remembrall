@@ -10,12 +10,14 @@ interface CustomMarkerProps extends MyMapMarkerProps {
   coordinate?: LatLng;
   color: string;
   score?: number;
+  isSelected?: boolean;
 }
 
 function CustomMarker({
   coordinate,
   color,
   score = 5,
+  isSelected = false,
   ...props
 }: CustomMarkerProps) {
   const {theme} = useThemeStore();
@@ -29,8 +31,13 @@ function CustomMarker({
   };
 
   const markerView = (
-    <View style={styles.container}>
-      <View style={[styles.marker, {backgroundColor: color}]}>
+    <View style={[styles.container, isSelected && styles.selectedContainer]}>
+      <View
+        style={[
+          styles.marker,
+          {backgroundColor: color},
+          isSelected && styles.selectedMarker,
+        ]}>
         <View style={styles.iconWrapper}>
           <Ionicons
             name={getIconName(score)}
@@ -39,6 +46,7 @@ function CustomMarker({
           />
         </View>
       </View>
+      {isSelected && <View style={styles.pulseRing} />}
     </View>
   );
 
@@ -66,6 +74,11 @@ const styling = (theme: Theme) =>
       borderColor: colors[theme].UNCHANGE_BLACK,
       borderBottomRightRadius: 1,
       borderWidth: 1,
+    },
+    selectedMarker: {
+      borderWidth: 4,
+      borderColor: colors[theme].BLACK,
+      elevation: 10,
     },
     iconWrapper: {
       transform: [{rotate: '-45deg'}],

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import MapView, {
   LatLng,
@@ -28,6 +28,7 @@ import MarkerFilterAction from '@/components/map/MarkerFilterAction';
 import useFilterStore from '@/store/filter';
 import useThemeStore, {Theme} from '@/store/theme';
 import TutorialModal from '@/components/common/TutorialModal';
+import useProximityAlarm from '@/hooks/useProximityAlarm';
 
 type Navigation = StackNavigationProp<MapStackParamList>;
 
@@ -37,7 +38,12 @@ function MapHomeScreen() {
   const navigation = useNavigation<Navigation>();
   const inset = useSafeAreaInsets();
   const [markerId, setSetMarkerId] = useState<number>();
-  const {selectLocation, setSelectLocation} = useLocationStore();
+  const {
+    selectLocation,
+    setSelectLocation,
+    selectedMarkerId,
+    setSelectedMarkerId,
+  } = useLocationStore();
   const {filters} = useFilterStore();
   const {userLocation, isUserLocationError} = useUserLocation();
   const {mapRef, moveMapView, handleChangeDelta} = useMoveMapView();
@@ -54,6 +60,21 @@ function MapHomeScreen() {
   const tutorial = useModal();
   usePermission('LOCATION');
 
+  // 알림 클릭으로 선택된 마커가 있으면 해당 위치로 이동
+  useEffect(() => {
+    if (selectedMarkerId) {
+      const targetMarker = markers.find(m => m.id === selectedMarkerId);
+      if (targetMarker) {
+        moveMapView({
+          latitude: targetMarker.latitude,
+          longitude: targetMarker.longitude,
+        });
+        setSetMarkerId(selectedMarkerId);
+        markerModal.show();
+      }
+    }
+  }, [selectedMarkerId, markers, moveMapView, markerModal]);
+
   const handlePressUserLocation = () => {
     if (isUserLocationError) {
       Toast.show({
@@ -69,8 +90,14 @@ function MapHomeScreen() {
 
   const handlePressMarker = (id: number, coordinate: LatLng) => {
     setSetMarkerId(id);
+    setSelectedMarkerId(id);
     moveMapView(coordinate);
     markerModal.show();
+  };
+
+  const handleHideModal = () => {
+    markerModal.hide();
+    setSelectedMarkerId(null);
   };
 
   const handlePressAddPost = () => {
@@ -87,6 +114,8 @@ function MapHomeScreen() {
     });
     setSelectLocation(null);
   };
+
+  useProximityAlarm();
 
   return (
     <>
@@ -117,14 +146,15 @@ function MapHomeScreen() {
             color={color}
             score={score}
             coordinate={coordinate}
+            isSelected={selectedMarkerId === id}
             onPress={() => handlePressMarker(id, coordinate)}
           />
         ))}
         <Circle
           center={userLocation}
           radius={500}
-          strokeColor="rgba(0,191,255,0.7)" // 하늘색 테두리
-          fillColor="rgba(135,206,250,0.2)" // 하늘색 투명 채움
+          strokeColor="rgba(0,191,255,0.7)"
+          fillColor="rgba(135,206,250,0.2)"
           zIndex={2}
         />
         {selectLocation && <Marker coordinate={selectLocation} />}
@@ -146,7 +176,7 @@ function MapHomeScreen() {
       <MarkerModal
         isVisible={markerModal.isVisible}
         markerId={Number(markerId)}
-        hide={markerModal.hide}
+        hide={handleHideModal}
       />
       <MarkerFilterAction
         isVisible={filterAction.isVisible}

@@ -12,6 +12,7 @@ import {colors} from '@/constants/colors';
 import useThemeStorage from '@/hooks/useThemeStorage';
 import {StatusBar, Platform, PermissionsAndroid} from 'react-native';
 import {Alert} from 'react-native';
+import PushNotification from 'react-native-push-notification';
 import {getApp} from '@react-native-firebase/app';
 import {
   getMessaging,
@@ -21,6 +22,7 @@ import {
   getToken,
   AuthorizationStatus,
 } from '@react-native-firebase/messaging';
+import useLocationStore from '@/store/location';
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
@@ -43,7 +45,7 @@ const toastConfig = {
 
 function App() {
   const {theme} = useThemeStorage();
-
+  const {setSelectedMarkerId} = useLocationStore();
   const requestUserPermission = async () => {
     if (Platform.OS === 'android') {
       if (PermissionsAndroid && Platform.Version >= 33) {
@@ -121,6 +123,22 @@ function App() {
       // 또는 Toast 등 원하는 UI 처리
     });
     return unsubscribe;
+  }, []);
+
+  useEffect(() => {
+    PushNotification.configure({
+      onNotification: function (notification) {
+        if (notification.userInteraction) {
+          // 알림 클릭 시
+          const markerId = notification.data?.markerId;
+          if (markerId) {
+            setSelectedMarkerId(Number(markerId));
+          }
+        }
+      },
+      requestPermissions: false,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

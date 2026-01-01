@@ -65,13 +65,6 @@ function validateAddPost(values: {
   if (values.description && values.description.length > 200) {
     errors.description = '내용은 200자 이내로 입력해주세요.';
   }
-  if (values.meter) {
-    const onlyNumber = values.meter.replace(/[^0-9]/g, '');
-    const num = parseInt(onlyNumber, 10);
-    if (isNaN(num) || num < 50 || num > 500) {
-      errors.meter = '알림 거리는 50~500 사이의 숫자여야 합니다.';
-    }
-  }
 
   return errors;
 }
