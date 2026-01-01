@@ -127,7 +127,7 @@ function App() {
 
   useEffect(() => {
     PushNotification.configure({
-      onNotification: function (notification) {
+      onNotification: function (notification: any) {
         console.log('알림:', notification);
 
         if (notification.userInteraction) {

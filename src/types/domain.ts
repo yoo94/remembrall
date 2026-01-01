@@ -10,6 +10,7 @@ interface Marker {
   color: string;
   score: number;
   meter?: string;
+  title?: string;
 }
 
 interface Post extends Marker {

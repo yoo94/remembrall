@@ -30,16 +30,18 @@ function useProximityAlarm() {
       .filter(
         marker =>
           marker.meter &&
+          marker.title &&
           !notifiedMarkerIds.current.has(marker.id) &&
           getDistance(
             userLocation.latitude,
             userLocation.longitude,
             marker.latitude,
             marker.longitude,
-          ) <= Number(marker.meter)
+          ) <= Number(marker.meter),
       )
       .map(marker => ({
         ...marker,
+        title: marker.title,
         distance: getDistance(
           userLocation.latitude,
           userLocation.longitude,
