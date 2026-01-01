@@ -54,7 +54,7 @@ function InputNumberField({
   return (
     <View>
       <View style={styles.labelContainer}>
-        <Text style={styles.labelText}>알림 거리 (50~500 m)</Text>
+        <Text style={styles.labelText}>알림 거리 (30~500 m)</Text>
       </View>
       <View style={styles.row}>
         <TextInput

@@ -12,7 +12,6 @@ import {colors} from '@/constants/colors';
 import useThemeStorage from '@/hooks/useThemeStorage';
 import {StatusBar, Platform, PermissionsAndroid} from 'react-native';
 import {Alert} from 'react-native';
-import PushNotification from 'react-native-push-notification';
 import {getApp} from '@react-native-firebase/app';
 import {
   getMessaging,
@@ -22,8 +21,6 @@ import {
   getToken,
   AuthorizationStatus,
 } from '@react-native-firebase/messaging';
-import useLocationStore from '@/store/location';
-import {navigate} from '@/navigations/navigationRef'; // 여기서 가져옴
 
 const toastConfig = {
   success: (props: BaseToastProps) => (
@@ -123,34 +120,6 @@ function App() {
       Alert.alert('새 메시지', JSON.stringify(remoteMessage.notification));
     });
     return unsubscribe;
-  }, []);
-
-  useEffect(() => {
-    PushNotification.configure({
-      onNotification: function (notification: any) {
-        console.log('알림:', notification);
-
-        if (notification.userInteraction) {
-          // iOS: userInfo, Android: data
-          const markerId =
-            notification.userInfo?.markerId || notification.data?.markerId;
-
-          console.log('클릭! markerId:', markerId);
-
-          if (markerId) {
-            // store에 직접 접근
-            useLocationStore.getState().setSelectedMarkerId(Number(markerId));
-
-            // navigationRef로 이동
-            setTimeout(() => {
-              navigate('Map', {screen: 'MapHome'});
-            }, 100);
-          }
-        }
-      },
-      requestPermissions: false,
-      popInitialNotification: true,
-    });
   }, []);
 
   return (

@@ -23,6 +23,7 @@ import useImagePicker from '@/hooks/useImagePicker';
 import PreviewImageList from '@/components/common/PreviewImageList';
 import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import {useNavigation} from '@react-navigation/native';
+import CheckBoxField from '@/components/common/CheckBoxField';
 
 type Props = StackScreenProps<MapStackParamList, 'AddLocation'>;
 
@@ -32,6 +33,7 @@ function AddLocationScreen({route}: Props) {
   const inset = useSafeAreaInsets();
   const address = useGetAddress(location);
   const imagePicker = useImagePicker({initialImages: []});
+  const [enableAlarm, setEnableAlarm] = useState(false);
   const postForm = useForm({
     initialValue: {
       title: '',
@@ -67,11 +69,12 @@ function AddLocationScreen({route}: Props) {
     }
     const onlyNumber = postForm.values.meter.replace(/[^0-9]/g, '');
     const num = parseInt(onlyNumber, 10);
-    if (postForm.values.meter) {
-      if (isNaN(num) || num < 50 || num > 500) {
+    if (enableAlarm && postForm.values.meter) {
+      // ✅ enableAlarm 체크 추가
+      if (isNaN(num) || num < 30 || num > 500) {
         Toast.show({
           type: 'error',
-          text1: '알림 거리는 50~500 사이의 숫자여야 합니다.',
+          text1: '알림 거리는 30~500 사이의 숫자여야 합니다.',
           position: 'bottom',
         });
         return;
@@ -117,6 +120,19 @@ function AddLocationScreen({route}: Props) {
           touched={postForm.touched.description}
           {...postForm.getTextInputProps('description')}
         />
+        <CheckBoxField
+          checked={enableAlarm}
+          onPress={setEnableAlarm}
+          label="알림 거리 설정"
+          description="메모 근처에서 알림을 받으시겠어요?"
+        />
+        {enableAlarm && (
+          <InputNumberField
+            placeholder="알림이 울릴 메모와의 거리를 입력해주세요."
+            value={postForm.values.meter}
+            onChangeText={text => postForm.onChange('meter', text)}
+          />
+        )}
         <MarkerColorInput
           color={postForm.values.color}
           score={postForm.values.score}
@@ -125,11 +141,6 @@ function AddLocationScreen({route}: Props) {
         <ScoreInput
           score={postForm.values.score}
           onChangeScore={value => postForm.onChange('score', value)}
-        />
-        <InputNumberField
-          placeholder="알림이 울릴 메모와의 거리를 입력해주세요."
-          value={postForm.values.meter}
-          onChangeText={text => postForm.onChange('meter', text)}
         />
         <DatePicker
           modal
@@ -164,6 +175,11 @@ const styles = StyleSheet.create({
   container: {
     gap: 20,
     padding: 20,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
 });
 
