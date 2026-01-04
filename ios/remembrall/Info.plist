@@ -26,25 +26,18 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<!-- <key>NSAppTransportSecurity</key>
-	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<false/>
-		<key>NSAllowsLocalNetworking</key>
-		<true/>
-	</dict> -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	<key>NSExceptionDomains</key>
-	<dict>
-		<key>210.217.23.217</key>
+		<key>NSExceptionDomains</key>
 		<dict>
-		<key>NSExceptionAllowsInsecureHTTPLoads</key>
-		<true/>
-		<key>NSIncludesSubdomains</key>
-		<true/>
+			<key>210.217.23.217</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
 		</dict>
-	</dict>
 	</dict>
 	<key>NSAppleMusicUsageDescription</key>
 	<string>게시글 등록시 사진 선택을 위해 라이브러리 접근 권한이 필요합니다.</string>
@@ -74,6 +67,9 @@
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
+		<string>fetch</string>
+		<string>location</string>
+		<string>processing</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>BootSplash</string>
