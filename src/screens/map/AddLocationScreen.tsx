@@ -133,14 +133,14 @@ function AddLocationScreen({route}: Props) {
             onChangeText={text => postForm.onChange('meter', text)}
           />
         )}
+        <ScoreInput
+          score={postForm.values.score}
+          onChangeScore={value => postForm.onChange('score', value)}
+        />
         <MarkerColorInput
           color={postForm.values.color}
           score={postForm.values.score}
           onChangeColor={value => postForm.onChange('color', value)}
-        />
-        <ScoreInput
-          score={postForm.values.score}
-          onChangeScore={value => postForm.onChange('score', value)}
         />
         <DatePicker
           modal

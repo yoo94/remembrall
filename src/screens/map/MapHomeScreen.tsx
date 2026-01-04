@@ -29,6 +29,7 @@ import useFilterStore from '@/store/filter';
 import useThemeStore, {Theme} from '@/store/theme';
 import TutorialModal from '@/components/common/TutorialModal';
 import useProximityAlarm from '@/hooks/useProximityAlarm';
+import useBackgroundLocation from '@/hooks/useBackgroundLocation';
 
 type Navigation = StackNavigationProp<MapStackParamList>;
 
@@ -55,6 +56,8 @@ function MapHomeScreen() {
           (filters[String(marker.score)] ?? true),
       ),
   });
+  const {startBackgroundTracking, stopBackgroundTracking} =
+    useBackgroundLocation();
   const markerModal = useModal();
   const filterAction = useModal();
   const tutorial = useModal();
@@ -74,6 +77,15 @@ function MapHomeScreen() {
       }
     }
   }, [selectedMarkerId, markers, moveMapView, markerModal]);
+  useEffect(() => {
+    // 앱 시작 시 백그라운드 추적 시작
+    startBackgroundTracking();
+
+    return () => {
+      // 컴포넌트 언마운트 시 중지
+      stopBackgroundTracking();
+    };
+  }, [startBackgroundTracking, stopBackgroundTracking]);
 
   const handlePressUserLocation = () => {
     if (isUserLocationError) {

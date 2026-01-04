@@ -66,6 +66,14 @@ async function getCalendarPosts(
   return data;
 }
 
+async function updateNearbyLocation(body: {
+  latitude: number;
+  longitude: number;
+  fcmToken: string;
+}): Promise<void> {
+  await axiosInstance.post('/nearby', body);
+}
+
 export {
   createPost,
   getPost,
@@ -75,4 +83,5 @@ export {
   updateFavoritePost,
   getFavoritePosts,
   getCalendarPosts,
+  updateNearbyLocation,
 };
