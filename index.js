@@ -16,8 +16,6 @@ const messagingInstance = getMessaging(app);
 // 로컬 알림 클릭 이벤트 처리
 PushNotification.configure({
   onNotification: function (notification) {
-    console.log('알림 수신/클릭:', notification);
-
     // 알림 클릭 시
     if (notification.userInteraction) {
       const markerId = notification.data?.markerId;

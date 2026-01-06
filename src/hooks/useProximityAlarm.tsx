@@ -67,7 +67,7 @@ function useProximityAlarm() {
     PushNotification.localNotification({
       channelId: 'default-channel-id',
       title: '근처에 메모발견!!',
-      message: `지정거리내에 "${nearest.title}" 메모가 있어요!`,
+      message: `지정거리내에 ${nearest.title} 메모가 있어요!`,
       playSound: true,
       soundName: 'default',
       userInteraction: false,
