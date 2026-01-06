@@ -117,7 +117,10 @@ function App() {
     const app = getApp();
     const messagingInstance = getMessaging(app);
     const unsubscribe = onMessage(messagingInstance, async remoteMessage => {
-      Alert.alert('새 메시지', JSON.stringify(remoteMessage.notification));
+      Alert.alert(
+        JSON.stringify(remoteMessage.notification?.title),
+        JSON.stringify(remoteMessage.notification?.body),
+      );
     });
     return unsubscribe;
   }, []);

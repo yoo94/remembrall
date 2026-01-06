@@ -13,6 +13,11 @@ interface Marker {
   title?: string;
 }
 
+interface MarkerResponse {
+  markers: Marker[];
+  notifiedPostIds: string[];
+}
+
 interface Post extends Marker {
   title: string;
   address: string;
@@ -31,4 +36,4 @@ interface Profile {
   loginType: 'email' | 'kakao' | 'apple';
 }
 
-export type {ImageUri, Marker, Post, Profile};
+export type {ImageUri, Marker, MarkerResponse, Post, Profile};

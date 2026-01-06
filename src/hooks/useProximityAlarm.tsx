@@ -1,7 +1,8 @@
-import {useEffect, useRef} from 'react';
+import {useEffect, useMemo} from 'react';
 import PushNotification from 'react-native-push-notification';
 import useUserLocation from '@/hooks/useUserLocation';
 import useGetMarkers from '@/hooks/queries/useGetMarkers';
+import {Marker} from '@/types/domain';
 
 // 거리 계산 함수 (하버사인 공식)
 function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
@@ -11,27 +12,34 @@ function getDistance(lat1: number, lon1: number, lat2: number, lon2: number) {
   const dLon = toRad(lon2 - lon1);
   const a =
     Math.sin(dLat / 2) ** 2 +
-    Math.cos(toRad(lat1)) *
-      Math.cos(toRad(lat2)) *
-      Math.sin(dLon / 2) ** 2;
+    Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
 }
 
 function useProximityAlarm() {
   const {userLocation} = useUserLocation();
-  const {data: markers = []} = useGetMarkers();
-  const notifiedMarkerIds = useRef<Set<number>>(new Set());
+  const {data} = useGetMarkers();
+
+  // useMemo로 markers와 notifiedPostIds를 의존성 배열에서 안정화
+  const {markers, notifiedPostIds} = useMemo(
+    () => ({
+      markers: data?.markers || [],
+      notifiedPostIds: data?.notifiedPostIds || [],
+    }),
+    [data?.markers, data?.notifiedPostIds],
+  );
 
   useEffect(() => {
-    if (!userLocation) return;
+    if (!userLocation || markers.length === 0) return;
 
-    const candidates = markers
+    // 백엔드에서 받은 notifiedPostIds 사용
+    const candidates: Array<Marker & {distance: number}> = markers
       .filter(
-        marker =>
+        (marker: Marker) =>
           marker.meter &&
           marker.title &&
-          !notifiedMarkerIds.current.has(marker.id) &&
+          !notifiedPostIds.includes(String(marker.id)) &&
           getDistance(
             userLocation.latitude,
             userLocation.longitude,
@@ -39,7 +47,7 @@ function useProximityAlarm() {
             marker.longitude,
           ) <= Number(marker.meter),
       )
-      .map(marker => ({
+      .map((marker: Marker) => ({
         ...marker,
         title: marker.title,
         distance: getDistance(
@@ -53,7 +61,7 @@ function useProximityAlarm() {
     if (candidates.length === 0) return;
 
     const nearest = candidates.reduce((a, b) =>
-      a.distance < b.distance ? a : b
+      a.distance < b.distance ? a : b,
     );
 
     PushNotification.localNotification({
@@ -63,12 +71,11 @@ function useProximityAlarm() {
       playSound: true,
       soundName: 'default',
       userInteraction: false,
-      userInfo: {markerId: String(nearest.id)}, // iOS용 - 여기에 추가!
-      data: {markerId: String(nearest.id)},     // Android용
+      userInfo: {markerId: String(nearest.id)},
+      data: {markerId: String(nearest.id)},
       id: String(nearest.id),
     });
-    notifiedMarkerIds.current.add(nearest.id);
-  }, [userLocation, markers]);
+  }, [userLocation, markers, notifiedPostIds]);
 }
 
 export default useProximityAlarm;
