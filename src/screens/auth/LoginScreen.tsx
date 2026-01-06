@@ -1,14 +1,8 @@
 import React, {useRef} from 'react';
-import {
-  ActivityIndicator,
-  Modal,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import {StyleSheet, TextInput, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
+import LoadingOverlay from '@/components/common/LoadingOverlay';
 import CustomButton from '@/components/common/CustomButton';
 import InputField from '@/components/common/InputField';
 import useForm from '@/hooks/useForm';
@@ -71,16 +65,10 @@ function LoginScreen() {
           onPress={handleSubmit}
         />
       </SafeAreaView>
-
-      {/* 로딩 오버레이 */}
-      <Modal visible={loginMutation.isPending} transparent animationType="fade">
-        <View style={styles.modalBackground}>
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color={colors.light.BLUE_500} />
-            <Text style={styles.loadingText}>로그인 중입니다...</Text>
-          </View>
-        </View>
-      </Modal>
+      <LoadingOverlay
+        label="로그인 중입니다..."
+        visible={loginMutation.isPending}
+      />
     </>
   );
 }

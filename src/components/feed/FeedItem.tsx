@@ -1,5 +1,6 @@
 import React from 'react';
 import {Image, Platform, Pressable, StyleSheet, Text, View} from 'react-native';
+import Ionicons from '@react-native-vector-icons/ionicons';
 import {baseUrls} from '@/api/axios';
 import {colors} from '@/constants/colors';
 import {Post} from '@/types/domain';
@@ -11,17 +12,40 @@ import useThemeStore, {Theme} from '@/store/theme';
 
 interface FeedItemProps {
   post: Post;
+  isSelected?: boolean;
+  isSelectionMode?: boolean;
+  onSelectItem?: (id: number) => void;
 }
 
-function FeedItem({post}: FeedItemProps) {
+function FeedItem({
+  post,
+  isSelected = false,
+  isSelectionMode = false,
+  onSelectItem,
+}: FeedItemProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const navigation = useNavigation<StackNavigationProp<FeedStackParamList>>();
 
+  const handlePress = () => {
+    if (isSelectionMode && onSelectItem) {
+      onSelectItem(post.id);
+    } else {
+      navigation.navigate('FeedDetail', {id: post.id});
+    }
+  };
+
+  const handleLongPress = () => {
+    if (onSelectItem) {
+      onSelectItem(post.id);
+    }
+  };
+
   return (
     <Pressable
-      style={styles.container}
-      onPress={() => navigation.navigate('FeedDetail', {id: post.id})}>
+      style={[styles.container, isSelected && styles.selectedContainer]}
+      onPress={handlePress}
+      onLongPress={handleLongPress}>
       <View style={styles.imageContainer}>
         {post.imageUris.length > 0 ? (
           <Image
@@ -51,6 +75,16 @@ function FeedItem({post}: FeedItemProps) {
           {post.description}
         </Text>
       </View>
+
+      {isSelectionMode && (
+        <View style={styles.checkboxContainer}>
+          <Ionicons
+            name={isSelected ? 'checkmark-circle' : 'checkmark-circle-outline'}
+            size={24}
+            color={colors[theme].PINK_700}
+          />
+        </View>
+      )}
     </Pressable>
   );
 }
@@ -64,6 +98,11 @@ const styling = (theme: Theme) =>
       alignItems: 'center',
       paddingVertical: 8,
       paddingHorizontal: 2,
+    },
+    selectedContainer: {
+      backgroundColor: colors[theme].GRAY_100,
+      borderRadius: 8,
+      paddingHorizontal: 8,
     },
     imageContainer: {
       width: IMAGE_SIZE,
@@ -107,6 +146,11 @@ const styling = (theme: Theme) =>
       color: colors[theme].GRAY_500,
       fontSize: 13,
       marginTop: 4,
+    },
+    checkboxContainer: {
+      paddingHorizontal: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
     },
   });
 
