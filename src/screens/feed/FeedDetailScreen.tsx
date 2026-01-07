@@ -1,13 +1,5 @@
 import React from 'react';
-import {
-  Dimensions,
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Dimensions, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import CustomMarker from '@/components/common/CustomMarker';
@@ -17,7 +9,6 @@ import {useNavigation} from '@react-navigation/native';
 import {FeedStackParamList} from '@/types/navigation';
 import {colors} from '@/constants/colors';
 import useGetPost from '@/hooks/queries/useGetPost';
-import {baseUrls} from '@/api/axios';
 import {getDateTimeWithSeparator} from '@/utils/date';
 import CustomButton from '@/components/common/CustomButton';
 import PreviewImageList from '@/components/common/PreviewImageList';
@@ -26,6 +17,7 @@ import FeedDetailActionSheet from '@/components/feed/FeedDetailActionSheet';
 import useModal from '@/hooks/useModal';
 import useMutateFavoritePost from '@/hooks/queries/useMutateFavoritePost';
 import useThemeStore, {Theme} from '@/store/theme';
+import CustomImage from '@/components/common/CustomImage';
 
 type Props = StackScreenProps<FeedStackParamList, 'FeedDetail'>;
 
@@ -72,16 +64,15 @@ function FeedDetailScreen({route}: Props) {
           onPress={detailAction.show}
         />
       </View>
-      <ScrollView>
+      <ScrollView
+        contentContainerStyle={{
+          paddingBottom: insets.bottom + 100,
+        }}>
         <View style={styles.imageContainer}>
           {post.imageUris.length > 0 && (
-            <Image
-              style={styles.image}
-              source={{
-                uri: `${
-                  Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
-                }/${post.imageUris[0].uri}`,
-              }}
+            <CustomImage
+              imageStyle={styles.image}
+              uri={post.imageUris[0].uri}
               resizeMode="cover"
             />
           )}
@@ -115,6 +106,11 @@ function FeedDetailScreen({route}: Props) {
                   {getDateTimeWithSeparator(post.date, '.')}
                 </Text>
               </View>
+              <Text style={styles.infoColumnKeyText}>
+                {post.meter
+                  ? `알림이 울릴 거리 : ${post.meter} M(미터)`
+                  : '알림 지정안함'}
+              </Text>
             </View>
             <View style={styles.divider} />
             <View style={styles.infoRow}>
@@ -128,16 +124,6 @@ function FeedDetailScreen({route}: Props) {
               <View style={styles.infoColumn}>
                 <Text style={styles.descriptionText}>{post.description}</Text>
               </View>
-            </View>
-          </View>
-          <View style={styles.divider} />
-          <View style={styles.infoRow}>
-            <View style={styles.infoColumn}>
-              <Text style={styles.descriptionText}>
-                {post.meter
-                  ? `알림이 울릴 거리 : ${post.meter} M(미터)`
-                  : '알림 지정안함'}
-              </Text>
             </View>
           </View>
         </View>

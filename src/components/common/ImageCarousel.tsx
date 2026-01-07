@@ -2,10 +2,8 @@ import React, {useState} from 'react';
 import {
   Dimensions,
   FlatList,
-  Image,
   NativeScrollEvent,
   NativeSyntheticEvent,
-  Platform,
   Pressable,
   StyleSheet,
   View,
@@ -16,8 +14,8 @@ import {useSafeAreaInsets} from 'react-native-safe-area-context';
 
 import {ImageUri} from '@/types/domain';
 import {colors} from '@/constants/colors';
-import {baseUrls} from '@/api/axios';
 import useThemeStore, {Theme} from '@/store/theme';
+import CustomImage from '@/components/common/CustomImage';
 
 interface ImageCarouselProps {
   images: ImageUri[];
@@ -51,13 +49,9 @@ function ImageCarousel({images, pressedIndex = 0}: ImageCarouselProps) {
         data={images}
         renderItem={({item}) => (
           <View style={{width: deviceWidth}}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: `${
-                  Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
-                }/${item.uri}`,
-              }}
+            <CustomImage
+              imageStyle={styles.image}
+              uri={item.uri}
               resizeMode="contain"
             />
           </View>

@@ -1,22 +1,14 @@
 import React from 'react';
-import {
-  Image,
-  Modal,
-  Platform,
-  Pressable,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Modal, Pressable, StyleSheet, Text, View} from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 import {useNavigation} from '@react-navigation/native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-import {baseUrls} from '@/api/axios';
 import {colors} from '@/constants/colors';
 import useGetPost from '@/hooks/queries/useGetPost';
 import {getDateTimeWithSeparator} from '@/utils/date';
 import useThemeStore, {Theme} from '@/store/theme';
+import CustomImage from '@/components/common/CustomImage';
 
 interface MarkerModalProps {
   markerId: number;
@@ -54,13 +46,9 @@ function MarkerModal({markerId, isVisible, hide}: MarkerModalProps) {
             <View style={styles.cardAlign}>
               {post.imageUris.length > 0 && (
                 <View style={styles.imageContainer}>
-                  <Image
-                    style={styles.image}
-                    source={{
-                      uri: `${
-                        Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
-                      }/${post.imageUris[0]?.uri}`,
-                    }}
+                  <CustomImage
+                    imageStyle={styles.image}
+                    uri={post.imageUris[0]?.uri}
                     resizeMode="cover"
                   />
                 </View>

@@ -1,8 +1,7 @@
 import React from 'react';
-import {Image, Platform, Pressable, ScrollView, StyleSheet} from 'react-native';
+import {Pressable, ScrollView, StyleSheet} from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
-
-import {baseUrls} from '@/api/axios';
+import CustomImage from '@/components/common/CustomImage';
 import {ImageUri} from '@/types/domain';
 import {colors} from '@/constants/colors';
 import {
@@ -45,13 +44,9 @@ function PreviewImageList({
             key={uri}
             style={styles.imageContainer}
             onPress={() => handlePressImage(index)}>
-            <Image
-              style={styles.image}
-              source={{
-                uri: `${
-                  Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
-                }/${uri}`,
-              }}
+            <CustomImage
+              imageStyle={styles.image}
+              uri={uri}
               resizeMode="cover"
             />
             {showDeleteButton && (

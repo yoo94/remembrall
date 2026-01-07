@@ -24,6 +24,7 @@ import PreviewImageList from '@/components/common/PreviewImageList';
 import useMutateCreatePost from '@/hooks/queries/useMutateCreatePost';
 import {useNavigation} from '@react-navigation/native';
 import CheckBoxField from '@/components/common/CheckBoxField';
+import LoadingOverlay from '@/components/common/LoadingOverlay';
 
 type Props = StackScreenProps<MapStackParamList, 'AddLocation'>;
 
@@ -167,6 +168,10 @@ function AddLocationScreen({route}: Props) {
         </View>
       </ScrollView>
       <FixedBottomCTA label="저장" onPress={handleSubmit} />
+      <LoadingOverlay
+        label="이미지 업로드 중..."
+        visible={imagePicker.isUploading}
+      />
     </>
   );
 }

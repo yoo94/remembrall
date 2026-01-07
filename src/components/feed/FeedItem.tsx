@@ -1,7 +1,6 @@
 import React from 'react';
-import {Image, Platform, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import Ionicons from '@react-native-vector-icons/ionicons';
-import {baseUrls} from '@/api/axios';
 import {colors} from '@/constants/colors';
 import {Post} from '@/types/domain';
 import {getDateTimeWithSeparator} from '@/utils/date';
@@ -9,6 +8,7 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {FeedStackParamList} from '@/types/navigation';
 import useThemeStore, {Theme} from '@/store/theme';
+import CustomImage from '@/components/common/CustomImage';
 
 interface FeedItemProps {
   post: Post;
@@ -48,13 +48,9 @@ function FeedItem({
       onLongPress={handleLongPress}>
       <View style={styles.imageContainer}>
         {post.imageUris.length > 0 ? (
-          <Image
-            style={styles.image}
-            source={{
-              uri: `${
-                Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
-              }/${post.imageUris[0].uri}`,
-            }}
+          <CustomImage
+            imageStyle={styles.image}
+            uri={post.imageUris[0].uri}
             resizeMode="cover"
           />
         ) : (

@@ -13,6 +13,7 @@ interface UseImagePickerProps {
 function useImagePicker({initialImages}: UseImagePickerProps) {
   const uploadImages = useMutateImages();
   const [imageUris, setImageUris] = useState<ImageUri[]>(initialImages);
+  const [isUploading, setIsUploading] = useState(false);
 
   const addImageUris = (uris: string[]) => {
     setImageUris(prev => [...prev, ...uris.map(uri => ({uri}))]);
@@ -31,9 +32,16 @@ function useImagePicker({initialImages}: UseImagePickerProps) {
       maxFiles: 3,
     })
       .then(images => {
+        setIsUploading(true); // ← 업로드 시작
         const formData = getFormDataImages('images', images);
         uploadImages.mutate(formData, {
-          onSuccess: data => addImageUris(data),
+          onSuccess: data => {
+            addImageUris(data);
+            setIsUploading(false); // ← 업로드 완료
+          },
+          onError: () => {
+            setIsUploading(false); // ← 에러 시에도 해제
+          },
         });
       })
       .catch(error => {
@@ -47,7 +55,7 @@ function useImagePicker({initialImages}: UseImagePickerProps) {
       });
   };
 
-  return {imageUris, handleChangeImage, delete: deleteImageUri};
+  return {imageUris, handleChangeImage, delete: deleteImageUri, isUploading};
 }
 
 export default useImagePicker;
