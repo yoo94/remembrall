@@ -42,12 +42,16 @@ function DeleteAccountActionSheet({
 
   return (
     <ActionSheet isVisible={isVisible} hideAction={hideAction}>
-      <ActionSheet.Title>계정 삭제</ActionSheet.Title>
-      <ActionSheet.Divider />
-      <ActionSheet.Button isDanger onPress={handleDeleteAccount}>
-        계정 삭제
-      </ActionSheet.Button>
-      <ActionSheet.Button onPress={hideAction}>취소</ActionSheet.Button>
+      <ActionSheet.Background>
+        <ActionSheet.Container>
+          <ActionSheet.Button isDanger onPress={handleDeleteAccount}>
+            계정 삭제
+          </ActionSheet.Button>
+        </ActionSheet.Container>
+        <ActionSheet.Container>
+          <ActionSheet.Button onPress={hideAction}>취소</ActionSheet.Button>
+        </ActionSheet.Container>
+      </ActionSheet.Background>
     </ActionSheet>
   );
 }
