@@ -105,9 +105,6 @@ function FeedDetailScreen({route}: Props) {
                 <Text style={styles.infoColumnValueText}>
                   {getDateTimeWithSeparator(post.date, '.')}
                 </Text>
-                {post.meter
-                  ? `알림이 울릴 거리 : ${post.meter} M(미터)`
-                  : '알림 지정안함'}
               </View>
             </View>
             <View style={styles.divider} />
@@ -115,6 +112,11 @@ function FeedDetailScreen({route}: Props) {
               <View style={styles.infoColumn}>
                 <Text style={styles.infoColumnKeyText}>마커</Text>
                 <CustomMarker color={post.color} score={post.score} />
+                <Text style={styles.infoColumnKeyText}>
+                  {post.meter
+                    ? `|  알림이 울릴 거리 : ${post.meter} M(미터)`
+                    : '|  알림 지정안함'}
+                </Text>
               </View>
             </View>
             <View style={styles.divider} />
