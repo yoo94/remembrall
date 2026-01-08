@@ -105,12 +105,10 @@ function FeedDetailScreen({route}: Props) {
                 <Text style={styles.infoColumnValueText}>
                   {getDateTimeWithSeparator(post.date, '.')}
                 </Text>
-              </View>
-              <Text style={styles.infoColumnKeyText}>
                 {post.meter
                   ? `알림이 울릴 거리 : ${post.meter} M(미터)`
                   : '알림 지정안함'}
-              </Text>
+              </View>
             </View>
             <View style={styles.divider} />
             <View style={styles.infoRow}>

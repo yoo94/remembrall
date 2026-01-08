@@ -76,6 +76,10 @@ async function editProfile(body: RequestProfile): Promise<Profile> {
   return data;
 }
 
+async function deleteUser(): Promise<void> {
+  await axiosInstance.delete('/auth/deleteAccount');
+}
+
 export {
   postSignup,
   postLogin,
@@ -85,5 +89,6 @@ export {
   editProfile,
   kakaoLogin,
   appleLogin,
+  deleteUser,
   type ResponseToken,
 };

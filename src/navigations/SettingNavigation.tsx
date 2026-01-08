@@ -1,10 +1,11 @@
 import DrawerButton from '@/components/common/DrawerButton';
 import {colors} from '@/constants/colors';
 import EditProfileScreen from '@/screens/setting/EditProfileScreen';
+import PrivacyPolicyScreen from '@/screens/setting/PrivacyPolicyScreen';
 import SettingHomeScreen from '@/screens/setting/SettingHomeScreen';
 import useThemeStore from '@/store/theme';
 import {createStackNavigator} from '@react-navigation/stack';
-
+import TermsOfServiceScreen from '@/screens/setting/TermsOfServiceScreen';
 const Stack = createStackNavigator();
 
 export function SettingStack() {
@@ -40,6 +41,26 @@ export function SettingStack() {
         component={EditProfileScreen}
         options={{
           title: '프로필 수정',
+          cardStyle: {
+            backgroundColor: colors[theme].WHITE,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="PrivacyPolicy"
+        component={PrivacyPolicyScreen}
+        options={{
+          title: '개인정보 처리방침',
+          cardStyle: {
+            backgroundColor: colors[theme].WHITE,
+          },
+        }}
+      />
+      <Stack.Screen
+        name="TermsOfService"
+        component={TermsOfServiceScreen}
+        options={{
+          title: '서비스 이용약관',
           cardStyle: {
             backgroundColor: colors[theme].WHITE,
           },

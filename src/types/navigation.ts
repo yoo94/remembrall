@@ -25,6 +25,8 @@ export type FeedStackParamList = {
 export type SettingStackParamList = {
   SettingHome: undefined;
   EditProfile: undefined;
+  PrivacyPolicy: undefined;
+  TermsOfService: undefined;
 };
 
 export type MainDrawerParamList = {

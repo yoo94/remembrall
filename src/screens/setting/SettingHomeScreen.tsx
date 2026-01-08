@@ -9,6 +9,7 @@ import useAuth from '@/hooks/queries/useAuth';
 import {SettingStackParamList} from '@/types/navigation';
 import useModal from '@/hooks/useModal';
 import DarkModeActionSheet from '@/components/setting/DarkModeActionSheet';
+import DeleteAccountActionSheet from '@/components/setting/DeleteAccountActionSheet';
 import useThemeStore from '@/store/theme';
 
 type Navigation = NavigationProp<SettingStackParamList>;
@@ -18,7 +19,7 @@ function SettingHomeScreen() {
   const navigation = useNavigation<Navigation>();
   const {logoutMutation} = useAuth();
   const darkModeAction = useModal();
-
+  const deleteAccountAction = useModal();
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
@@ -28,13 +29,29 @@ function SettingHomeScreen() {
           onPress={() => navigation.navigate('EditProfile')}
         />
         <SettingItem title="다크 모드" onPress={darkModeAction.show} />
+        <SettingItem
+          title="개인정보 처리방침"
+          onPress={() => navigation.navigate('PrivacyPolicy')}
+        />
+        <SettingItem
+          title="서비스 이용약관"
+          onPress={() => navigation.navigate('TermsOfService')}
+        />
         <View style={styles.space} />
         <SettingItem
           title="로그아웃"
           color={colors[theme].RED_500}
           onPress={() => logoutMutation.mutate(null)}
         />
-
+        <SettingItem
+          title="계정 삭제"
+          color={colors[theme].RED_500}
+          onPress={deleteAccountAction.show}
+        />
+        <DeleteAccountActionSheet
+          isVisible={deleteAccountAction.isVisible}
+          hideAction={deleteAccountAction.hide}
+        />
         <DarkModeActionSheet
           isVisible={darkModeAction.isVisible}
           hideAction={darkModeAction.hide}
