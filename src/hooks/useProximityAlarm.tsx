@@ -38,6 +38,8 @@ function useProximityAlarm() {
       .filter(
         (marker: Marker) =>
           marker.meter &&
+          marker.meter.trim() !== '' && // ← 빈 문자열 명시적으로 제외
+          Number(marker.meter) > 0 && // ← 0 이상만 허용
           marker.title &&
           !notifiedPostIds.includes(String(marker.id)) &&
           getDistance(

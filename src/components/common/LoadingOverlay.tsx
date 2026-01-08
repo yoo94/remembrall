@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  ActivityIndicator,
-  Modal,
-  Text,
-  View,
-  StyleSheet,
-} from 'react-native';
+import {ActivityIndicator, Text, View, StyleSheet} from 'react-native';
 import {colors} from '@/constants/colors';
 
 interface LoadingOverlayProps {
@@ -14,19 +8,25 @@ interface LoadingOverlayProps {
 }
 
 function LoadingOverlay({label, visible = false}: LoadingOverlayProps) {
+  if (!visible) return null;
+
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <View style={styles.absoluteOverlay}>
       <View style={styles.modalBackground}>
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={colors.light.BLUE_500} />
           <Text style={styles.loadingText}>{label}</Text>
         </View>
       </View>
-    </Modal>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  absoluteOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    zIndex: 9999,
+  },
   modalBackground: {
     flex: 1,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',

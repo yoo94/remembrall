@@ -1,11 +1,17 @@
 import React, {useState} from 'react';
-import {Image, Platform, ActivityIndicator, View} from 'react-native';
+import {
+  Image,
+  Platform,
+  ActivityIndicator,
+  View,
+  ImageResizeMode,
+} from 'react-native';
 import {baseUrls} from '@/api/axios';
 
 interface CustomImageProps {
   uri: string;
   imageStyle?: object;
-  resizeMode?: string;
+  resizeMode?: ImageResizeMode;
 }
 
 function CustomImage({uri, imageStyle, resizeMode}: CustomImageProps) {

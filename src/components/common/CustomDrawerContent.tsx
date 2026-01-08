@@ -4,22 +4,21 @@ import {
   DrawerItemList,
 } from '@react-navigation/drawer';
 import React from 'react';
-import {Image, Platform, Pressable, StyleSheet, Text, View} from 'react-native';
+import {Pressable, StyleSheet, Text, View} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useNavigation} from '@react-navigation/native';
 import Ionicons from '@react-native-vector-icons/ionicons';
 
 import {colors} from '@/constants/colors';
 import useAuth from '@/hooks/queries/useAuth';
-import {baseUrls} from '@/api/axios';
 import useThemeStore, {Theme} from '@/store/theme';
+import CustomImage from './CustomImage';
 
 function CustomDrawerContent(props: DrawerContentComponentProps) {
   const {theme} = useThemeStore();
   const styles = styling(theme);
   const {auth} = useAuth();
   const navigation = useNavigation();
-
   return (
     <SafeAreaView style={styles.container}>
       <DrawerContentScrollView
@@ -28,18 +27,7 @@ function CustomDrawerContent(props: DrawerContentComponentProps) {
         contentContainerStyle={styles.contentContainer}>
         <Pressable style={styles.profileContainer}>
           <View style={styles.userImageContainer}>
-            <Image
-              source={
-                auth.imageUri
-                  ? {
-                      uri: `${
-                        Platform.OS === 'ios' ? baseUrls.ios : baseUrls.android
-                      }/${auth.imageUri}`,
-                    }
-                  : require('@/assets/default-user.png')
-              }
-              style={styles.userImage}
-            />
+            <CustomImage uri={auth.imageUri} imageStyle={styles.userImage} />
           </View>
           <Text style={styles.nickname}>{auth.nickname}</Text>
         </Pressable>
